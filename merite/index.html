@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Signal Rush v2.0 — Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Montserrat',sans-serif;background:#0D1B2A;color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+button{border:none;background:none;font-family:inherit;cursor:pointer}
+::selection{background:#F8BA08;color:#0D1B2A}
+
+/* Banner Slider */
+.banner-slider{width:100%;max-width:480px;overflow:hidden;border-radius:16px;background:linear-gradient(135deg,#1a2a44,#0D1B2A);border:1px solid rgba(248,186,8,.3);position:relative;margin-bottom:4px}
+.banner-track{display:flex;animation:slideBanner 16s infinite}
+.banner-slide{flex:0 0 100%;padding:16px 20px;text-align:center}
+.banner-icon{font-size:24px;margin-bottom:8px}
+.banner-text{font-size:12px;font-weight:600;line-height:1.6;color:#fff}
+.banner-text strong{color:#F8BA08}
+.banner-text .highlight{color:#FF6F61;font-weight:700}
+.banner-text .fee{color:#4ECDC4;font-weight:700}
+@keyframes slideBanner{0%,10%{transform:translateX(0)}15%,30%{transform:translateX(-100%)}35%,100%{transform:translateX(0)}}
+
+.page-wrap{width:100%;max-width:480px;display:flex;flex-direction:column;gap:20px}
+
+.header{text-align:center;padding-top:8px}
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.logo-mini{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#fff}
+.logo-mini span{color:#F8BA08}
+.tag{display:inline-block;color:#F8BA08;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:4px;margin-bottom:12px}
+.title{font-size:clamp(26px,8vw,44px);font-weight:900;line-height:1.1;margin-bottom:8px}
+.title span{background:linear-gradient(90deg,#F8BA08,#FFCB05);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{color:#808080;font-size:13px;max-width:380px;margin:0 auto;line-height:1.7}
+
+.panel{border-radius:24px;background:rgba(26,42,68,.5);border:1px solid rgba(255,255,255,.06);padding:24px;position:relative;overflow:hidden}
+.panel h3{font-size:18px;font-weight:900;margin-bottom:8px;line-height:1.2}
+.panel h3 span{color:#F8BA08}
+.panel p{color:#A3B8CC;font-size:12px;line-height:1.7;margin-bottom:12px}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+.stat{padding:10px 6px;border-radius:12px;background:#0D1B2A;border:1px solid rgba(255,255,255,.05);text-align:center}
+.stat b{display:block;color:#F8BA08;font-size:18px;font-weight:900;line-height:1}
+.stat span{display:block;color:#808080;font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+
+.extras{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px}
+.extra-box{padding:8px 10px;border-radius:10px;background:#0D1B2A;border:1px solid rgba(255,255,255,.05)}
+.extra-box label{display:block;color:#808080;font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.extra-box .val{font-size:12px;font-weight:800;color:#fff}
+
+.start-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#F8BA08,#FF7F00);color:#0D1B2A;padding:14px 28px;border-radius:14px;font-weight:700;font-size:12px;transition:all .3s;width:100%}
+.start-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(248,186,8,.3)}
+.start-btn:active{transform:scale(.97)}
+
+.board{border-radius:24px;background:linear-gradient(135deg,rgba(26,42,68,.45),rgba(13,27,42,.85));position:relative;width:100%;height:300px;border:1px solid rgba(255,255,255,.06);overflow:hidden;display:none}
+.board.active{display:block}
+
+.timer-ring{position:absolute;top:10px;right:10px;z-index:5}
+.timer-ring svg{transform:rotate(-90deg)}
+.timer-ring circle.bg{fill:none;stroke:rgba(255,255,255,.08);stroke-width:3}
+.timer-ring circle.fg{fill:none;stroke:#F8BA08;stroke-width:3;stroke-linecap:round;stroke-dasharray:113;stroke-dashoffset:0}
+.timer-ring .t-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900}
+
+.hint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.hint b{color:#fff;font-size:16px;margin-bottom:6px;display:block}
+
+.target{position:absolute;border-radius:16px;display:flex;align-items:center;justify-content:center;z-index:3;cursor:pointer;transition:transform .1s}
+.target:hover{transform:scale(1.1)}
+.target.good{background:linear-gradient(135deg,rgba(248,186,8,.95),rgba(255,165,0,.95));border:2px solid rgba(255,220,0,.8)}
+.target.fake{background:linear-gradient(135deg,rgba(210,185,30,.9),rgba(180,160,10,.9));border:2px dashed rgba(200,200,0,.6)}
+.target.noise{background:linear-gradient(135deg,#FF6F61,#F4A261);border:2px solid rgba(255,111,97,.65)}
+.target.trap{background:linear-gradient(135deg,#7B2FF7,#4A00E0);border:2px solid rgba(123,47,247,.8)}
+
+.pop{position:absolute;font-weight:900;font-size:14px;z-index:10;pointer-events:none;animation:popAnim .6s ease forwards}
+.pop.good-pop{color:#FFD700}
+.pop.fake-pop{color:#c8b800;font-size:16px}
+.pop.noise-pop{color:#FF6F61}
+.pop.trap-pop{color:#B47BFF}
+
+.combo-badge{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:8;font-size:clamp(22px,7vw,36px);font-weight:900;color:#F8BA08;animation:comboBadge .8s ease forwards}
+
+@keyframes popAnim{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-32px) scale(1)}}
+@keyframes comboBadge{0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}40%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1)}}
+
+.overlay{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:rgba(7,14,26,.95);z-index:20;border-radius:24px}
+.overlay.show{display:flex}
+
+.res-score-big{font-size:clamp(48px,14vw,72px);font-weight:900;color:#F8BA08;line-height:1;margin:6px 0}
+.res-rank-txt{font-size:12px;color:#A3B8CC;margin-bottom:4px}
+.res-best-txt{font-size:10px;color:#606060;margin-bottom:16px}
+
+.legend{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.leg{display:flex;align-items:center;gap:4px;font-size:10px;color:#A3B8CC}
+.leg-dot{width:10px;height:10px;border-radius:3px;flex:0 0 auto}
+.leg-gold{background:#F8BA08}
+.leg-fake{background:#c8b400;border:1.5px dashed #e0d000}
+.leg-red{background:#FF6F61}
+.leg-purple{background:#7B2FF7}
+
+.badge-v2{display:inline-block;background:rgba(248,186,8,.2);color:#F8BA08;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;margin-top:8px}
+
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+  <div class="header">
+    <div class="logo-mini">ANKINO <span>MG</span></div>
+    <div class="tag">Mini-jeu v2.0 — 60 secondes</div>
+    <h1 class="title">Signal <span>Rush</span></h1>
+    <p class="subtitle">Captez les vrais signaux 3x plus vite, méfiez-vous du faux or, évitez le bruit et les pièges</p>
+  </div>
+
+  <!-- Banner Slider -->
+  <div class="banner-slider">
+    <div class="banner-track">
+      <div class="banner-slide">
+        <div class="banner-icon">🏆</div>
+        <div class="banner-text">
+          <strong>Concours imminent !</strong><br>
+          Une récompense de <strong>50 000 Ar</strong> attend les meilleurs joueurs<br>
+          <span class="highlight">Entraînez-vous dès maintenant !</span>
+        </div>
+      </div>
+      <div class="banner-slide">
+        <div class="banner-icon">💰</div>
+        <div class="banner-text">
+          <strong>Comment participer ?</strong><br>
+          Une petite participation de <span class="fee">5 000 Ar</span> sera demandée<br>
+          <span class="highlight">Préparez-vous dès maintenant !</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>Captez les <span>vrais signaux</span></h3>
+    <div class="legend">
+      <div class="leg"><div class="leg-dot leg-gold"></div><span>Vrai +1</span></div>
+      <div class="leg"><div class="leg-dot leg-fake"></div><span>Faux −2</span></div>
+      <div class="leg"><div class="leg-dot leg-red"></div><span>Bruit −2</span></div>
+      <div class="leg"><div class="leg-dot leg-purple"></div><span>Piège −3</span></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b id="statScore">0</b><span>Score</span></div>
+      <div class="stat"><b id="statBest">0</b><span>Record</span></div>
+      <div class="stat"><b id="statCombo">×1</b><span>Combo</span></div>
+    </div>
+
+    <div class="extras">
+      <div class="extra-box">
+        <label>Niveau</label>
+        <div class="val" id="diffLabel">Facile</div>
+      </div>
+      <div class="extra-box">
+        <label>Vitesse</label>
+        <div class="val" id="speedLabel">×3</div>
+      </div>
+    </div>
+
+    <button class="start-btn" id="startBtn" onclick="startGame()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      Jouer maintenant (60 secondes)
+    </button>
+    
+    <div class="badge-v2">✨ Nouvelles modifications : 3x plus rapide + durée 60s</div>
+  </div>
+
+  <div class="board" id="board">
+    <div class="timer-ring" id="timerRing">
+      <svg width="40" height="40" viewBox="0 0 40 40">
+        <circle class="bg" cx="20" cy="20" r="18"/>
+        <circle class="fg" id="timerArc" cx="20" cy="20" r="18"/>
+      </svg>
+      <div class="t-num" id="timerNum">60</div>
+    </div>
+
+    <div class="hint" id="hint">
+      <b>Prêt à jouer ?</b>
+      <p>Appuyez sur les signaux !</p>
+    </div>
+
+    <div class="overlay" id="resultOverlay">
+      <div style="font-size:12px;color:#808080;margin-bottom:4px">Partie terminée</div>
+      <div class="res-score-big" id="resScore">0</div>
+      <div class="res-rank-txt" id="resRank"></div>
+      <div class="res-best-txt" id="resBest"></div>
+      <button class="start-btn" style="padding:12px 20px;font-size:11px;margin-top:20px;width:auto" onclick="startGame()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Rejouer
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+ GAME STATE - v2.0 MODIFICATIONS
+ ============================================================ */
+var score = 0, combo = 1, timeLeft = 60, running = false;
+var best = parseInt(localStorage.getItem('sr_best') || '0');
+var timerInterval = null, spawnInterval = null;
+var frozen = false, freezeTimeout = null;
+var TIER_SIZE = 50;
+
+// ✅ MODIFICATION: Vitesse ×3 dès le départ
+var diffLevels = [
+ {label:'Facile',spawnMs:367,lifeMs:800},      // ÷3 (1100→367, 2400→800)
+ {label:'Normal',spawnMs:300,lifeMs:667},      // ÷3 (900→300, 2000→667)
+ {label:'Intense',spawnMs:233,lifeMs:567},     // ÷3 (700→233, 1700→567)
+ {label:'Expert',spawnMs:167,lifeMs:467},      // ÷3 (500→167, 1400→467)
+];
+
+var ICONS = {
+ good: '✓',
+ fake: '◆',
+ noise: '≈',
+ trap: '⚡'
+};
+
+/* ============================================================
+ GAME FUNCTIONS - MODIFIED
+ ============================================================ */
+
+function startGame() {
+ var board = document.getElementById('board');
+ score = 0; combo = 1; timeLeft = 60; frozen = false;
+ running = true;
+ 
+ document.getElementById('hint').style.display = 'none';
+ document.getElementById('resultOverlay').classList.remove('show');
+ document.getElementById('board').classList.add('active');
+ 
+ updateUI();
+ clearInterval(timerInterval);
+ clearInterval(spawnInterval);
+ board.querySelectorAll('.target,.pop,.combo-badge').forEach(function(el){el.remove()});
+ 
+ updateTimerArc(timeLeft);
+ timerInterval = setInterval(function(){
+   if(!running) return;
+   timeLeft--;
+   updateTimerArc(timeLeft);
+   document.getElementById('timerNum').textContent = timeLeft;
+   if(timeLeft <= 0){ endGame(); }
+ }, 1000);
+ 
+ scheduleSpawn();
+}
+
+function scheduleSpawn() {
+ var diff = getDiff();
+ clearInterval(spawnInterval);
+ spawnInterval = setInterval(function(){
+   if(!running) return;
+   spawnTarget();
+ }, diff.spawnMs);
+}
+
+// ✅ MODIFICATION: Accélération progressive améliorée
+function getDiff() {
+ if(score < 8) return diffLevels[0];    // Facile : 0-7 pts
+ if(score < 18) return diffLevels[1];   // Normal : 8-17 pts
+ if(score < 35) return diffLevels[2];   // Intense : 18-34 pts
+ return diffLevels[3];                  // Expert : 35+ pts
+}
+
+function updateDiffUI() {
+ var d = getDiff();
+ document.getElementById('diffLabel').textContent = d.label;
+ document.getElementById('speedLabel').textContent = '×3 (base)';
+}
+
+function updateTimerArc(t) {
+ var arc = document.getElementById('timerArc');
+ var r = 18, circ = 2 * Math.PI * r;
+ var pct = t / 60;
+ arc.style.strokeDashoffset = circ * (1 - pct);
+ arc.style.stroke = t > 20 ? '#F8BA08' : '#FF6F61';
+}
+
+function spawnTarget() {
+ if(frozen) return;
+ var board = document.getElementById('board');
+ var bw = board.offsetWidth, bh = board.offsetHeight;
+ var size = TIER_SIZE;
+ var x = Math.random() * (bw - size - 12) + 6;
+ var y = Math.random() * (bh - size - 12) + 6;
+ 
+ var r = Math.random();
+ var type;
+ if(r < 0.42) type = 'good';
+ else if(r < 0.60) type = 'fake';
+ else if(r < 0.80) type = 'noise';
+ else type = 'trap';
+ 
+ var el = document.createElement('div');
+ el.className = 'target ' + type;
+ el.style.cssText = 'left:'+x+'px;top:'+y+'px;width:'+size+'px;height:'+size+'px;';
+ el.innerHTML = ICONS[type];
+ el.dataset.type = type;
+ el.onclick = function(){ hitTarget(el, type, x, y, size); };
+ 
+ board.appendChild(el);
+ 
+ var diff = getDiff();
+ setTimeout(function(){
+   if(el.parentNode){ el.remove(); }
+ }, diff.lifeMs);
+}
+
+function hitTarget(el, type, x, y, size) {
+ if(!running || el.dataset.hit) return;
+ el.dataset.hit = '1';
+ el.remove();
+ 
+ var cx = x + size/2, cy = y + size/2;
+ if(type === 'good') {
+   var pts = combo;
+   score += pts;
+   combo = Math.min(combo + 1, 4);
+   showPop('+'+pts, cx, cy, 'good-pop');
+   if(combo >= 3) showCombo('×'+combo);
+ } else if(type === 'fake') {
+   score = Math.max(0, score - 2);
+   combo = 1;
+   showPop('−2', cx, cy, 'fake-pop');
+ } else if(type === 'noise') {
+   score = Math.max(0, score - 2);
+   combo = 1;
+   showPop('−2', cx, cy, 'noise-pop');
+ } else if(type === 'trap') {
+   score = Math.max(0, score - 3);
+   combo = 1;
+   showPop('−3', cx, cy, 'trap-pop');
+   doFreeze();
+ }
+ updateUI();
+ updateDiffUI();
+ scheduleSpawn();
+}
+
+function doFreeze() {
+ if(!running) return;
+ frozen = true;
+ clearTimeout(freezeTimeout);
+ freezeTimeout = setTimeout(function(){ frozen = false; }, 700);
+}
+
+function showPop(txt, x, y, cls) {
+ var board = document.getElementById('board');
+ var p = document.createElement('div');
+ p.className = 'pop ' + cls;
+ p.style.left = x + 'px';
+ p.style.top = y + 'px';
+ p.textContent = txt;
+ board.appendChild(p);
+ setTimeout(function(){ if(p.parentNode) p.remove(); }, 700);
+}
+
+function showCombo(txt) {
+ var board = document.getElementById('board');
+ var c = document.createElement('div');
+ c.className = 'combo-badge';
+ c.textContent = txt;
+ board.appendChild(c);
+ setTimeout(function(){ if(c.parentNode) c.remove(); }, 800);
+}
+
+function updateUI() {
+ document.getElementById('statScore').textContent = score;
+ document.getElementById('statBest').textContent = Math.max(best, score);
+ document.getElementById('statCombo').textContent = '×' + combo;
+}
+
+function endGame() {
+ running = false;
+ clearInterval(timerInterval);
+ clearInterval(spawnInterval);
+ document.getElementById('board').querySelectorAll('.target').forEach(function(el){ el.remove(); });
+ 
+ if(score > best) {
+   best = score;
+   localStorage.setItem('sr_best', best);
+ }
+ 
+ document.getElementById('resScore').textContent = score;
+ document.getElementById('resRank').textContent = getRankLabel(score);
+ document.getElementById('resBest').textContent = 'Record : ' + best + ' pts';
+ document.getElementById('resultOverlay').classList.add('show');
+ 
+ updateDiffUI();
+ updateUI();
+}
+
+function getRankLabel(s) {
+ if(s >= 30) return '■ Légende du Signal';
+ if(s >= 22) return '■ Expert';
+ if(s >= 14) return '■ Chasseur de Signaux';
+ if(s >= 8) return '■ Opérateur';
+ return '■ Apprenti';
+}
+
+/* INIT */
+document.getElementById('statBest').textContent = best;
+updateDiffUI();
+</script>
+
+</body>
+</html>
