@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Signal Rush — Ankino MG</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="0"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Montserrat',sans-serif;background:#0D1B2A;color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 12px 80px}
+button{border:none;background:none;font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit}
+::selection{background:#F8BA08;color:#0D1B2A}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+.gd{background:linear-gradient(90deg,#F8BA08,#F4C95D,#FFCB05,#F8BA08);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite}
+.page-wrap{width:100%;max-width:480px;display:flex;flex-direction:column;gap:20px}
+.header{text-align:center;padding-top:8px}
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.back-link{display:inline-flex;align-items:center;gap:6px;color:#A3B8CC;font-size:12px;font-weight:700;text-decoration:none;transition:color .2s}
+.back-link:hover{color:#F8BA08}
+.logo-mini{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#fff}
+.logo-mini span{color:#F8BA08}
+.tag{display:inline-block;color:#F8BA08;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:4px;margin-bottom:8px}
+.title{font-size:clamp(26px,8vw,44px);font-weight:900;line-height:1.1;margin-bottom:8px}
+.subtitle{color:#808080;font-size:13px;max-width:380px;margin:0 auto;line-height:1.7}
+.panel{border-radius:24px;background:rgba(26,42,68,.5);border:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden;padding:20px;display:flex;flex-direction:column}
+.panel::before{content:'';position:absolute;width:140px;height:140px;border-radius:50%;filter:blur(55px);pointer-events:none;right:-40px;top:-40px;background:rgba(248,186,8,.06)}
+.pill{display:inline-flex;width:fit-content;padding:6px 12px;border-radius:50px;background:#0D1B2A;border:1px solid rgba(248,186,8,.18);color:#F8BA08;font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.panel h3{font-size:18px;font-weight:900;margin-bottom:8px;line-height:1.2}
+.panel h3 span{color:#F8BA08}
+.panel p{color:#A3B8CC;font-size:12px;line-height:1.7;margin-bottom:12px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:10px}
+.stat{padding:10px 6px;border-radius:12px;background:#0D1B2A;border:1px solid rgba(255,255,255,.05);text-align:center}
+.stat b{display:block;color:#F8BA08;font-size:18px;font-weight:900;line-height:1}
+.stat span{display:block;color:#808080;font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+.extras{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px}
+.extra-box{padding:8px 10px;border-radius:10px;background:#0D1B2A;border:1px solid rgba(255,255,255,.05)}
+.extra-box label{display:block;color:#808080;font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.extra-box .val{font-size:12px;font-weight:800;color:#fff}
+.diff-bar{height:4px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:5px}
+.diff-fill{height:100%;width:0;border-radius:4px;background:linear-gradient(90deg,#25D366,#F8BA08,#FF6F61);transition:width .6s ease}
+.start-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#F8BA08,#FF7F00);color:#0D1B2A;padding:14px 26px;border-radius:50px;font-weight:900;font-size:12px;text-transform:uppercase;letter-spacing:2px;box-shadow:0 4px 22px rgba(248,186,8,.3);transition:all .3s;width:100%}
+.start-btn:active{transform:scale(.97)}
+.start-btn:disabled{opacity:.6;cursor:not-allowed}
+.board{border-radius:24px;background:linear-gradient(135deg,rgba(26,42,68,.45),rgba(13,27,42,.85));background-image:radial-gradient(rgba(248,186,8,.07) 1px,transparent 1px);background-size:28px 28px;border:1px solid rgba(255,255,255,.05);position:relative;overflow:hidden;min-height:340px;touch-action:none}
+.board::before{content:'';position:absolute;width:180px;height:180px;border-radius:50%;filter:blur(65px);pointer-events:none;left:-60px;bottom:-60px;background:rgba(0,188,212,.04)}
+.timer-ring{position:absolute;top:10px;right:10px;z-index:5}
+.timer-ring svg{transform:rotate(-90deg)}
+.timer-ring circle.bg{fill:none;stroke:rgba(255,255,255,.08);stroke-width:3}
+.timer-ring circle.fg{fill:none;stroke:#F8BA08;stroke-width:3;stroke-linecap:round;stroke-dasharray:113;stroke-dashoffset:0;transition:stroke-dashoffset .9s linear,stroke .5s}
+.timer-ring .t-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#F8BA08}
+.hint{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#A3B8CC;padding:24px;z-index:2}
+.hint svg{color:#F8BA08;margin-bottom:10px}
+.hint b{color:#fff;font-size:16px;margin-bottom:6px;display:block}
+.hint p{font-size:12px;line-height:1.6}
+.overlay{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;z-index:10;background:rgba(13,27,42,.96);backdrop-filter:blur(12px)}
+.overlay.show{display:flex}
+.res-score-big{font-size:clamp(48px,14vw,72px);font-weight:900;color:#F8BA08;line-height:1;margin:6px 0}
+.res-rank-txt{font-size:12px;color:#A3B8CC;margin-bottom:4px}
+.res-best-txt{font-size:10px;color:#606060;margin-bottom:16px}
+.res-actions{display:flex;flex-direction:column;gap:8px;width:100%;max-width:260px}
+
+/* ── Mini leaderboard dans pseudo overlay ── */
+.mini-lb{margin-top:20px;width:100%;text-align:left}
+.mini-lb-title{font-size:10px;font-weight:800;color:#808080;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;text-align:center}
+.mini-lb-row{display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;margin-bottom:5px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05)}
+.mini-lb-row.top1{background:linear-gradient(90deg,rgba(248,186,8,.09),rgba(248,186,8,.02));border-color:rgba(248,186,8,.15)}
+.mini-lb-row.top2{background:linear-gradient(90deg,rgba(192,192,192,.06),transparent);border-color:rgba(192,192,192,.1)}
+.mini-lb-row.top3{background:linear-gradient(90deg,rgba(205,127,50,.06),transparent);border-color:rgba(205,127,50,.1)}
+.mini-lb-rank{font-size:14px;text-align:center}
+.mini-lb-pseudo{font-size:12px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-lb-score{font-size:13px;font-weight:900;color:#F8BA08;white-space:nowrap}
+.mini-lb-pts{font-size:9px;color:#606060}
+.mini-lb-loading{text-align:center;color:#4A5D70;font-size:11px;padding:10px 0}
+
+/* ── Leaderboard ── */
+.leaderboard-section{width:100%}
+.lb-header{text-align:center;margin-bottom:20px}
+.lb-header h2{font-size:clamp(20px,6vw,32px);font-weight:900;margin-bottom:6px}
+.lb-header p{color:#808080;font-size:12px}
+.lb-wrap{background:rgba(26,42,68,.35);border:1px solid rgba(255,255,255,.05);border-radius:20px;overflow:hidden}
+.lb-top-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.05)}
+.lb-top-bar span{color:#808080;font-size:11px;font-weight:600}
+.lb-refresh{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:50px;background:rgba(248,186,8,.08);border:1px solid rgba(248,186,8,.15);color:#F8BA08;font-size:10px;font-weight:700;cursor:pointer}
+.lb-loading{padding:36px;text-align:center;color:#4A5D70;font-size:12px}
+.lb-empty{padding:36px;text-align:center;color:#4A5D70;font-size:12px}
+.lb-row{display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.03);transition:background .2s}
+.lb-row:last-child{border-bottom:none}
+.lb-row.top1{background:linear-gradient(90deg,rgba(248,186,8,.07),transparent)}
+.lb-row.top2{background:linear-gradient(90deg,rgba(192,192,192,.04),transparent)}
+.lb-row.top3{background:linear-gradient(90deg,rgba(205,127,50,.04),transparent)}
+.lb-rank{font-size:12px;font-weight:900;color:#4A5D70;text-align:center}
+.lb-rank.r1{color:#F8BA08;font-size:16px}
+.lb-rank.r2{color:#B0B0B0;font-size:14px}
+.lb-rank.r3{color:#CD7F32;font-size:13px}
+.lb-pseudo{font-size:13px;font-weight:700;color:#fff}
+.lb-pseudo .lb-badge{display:inline-block;padding:2px 7px;border-radius:50px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-left:6px;vertical-align:middle}
+.lb-badge.gold{background:rgba(248,186,8,.15);color:#F8BA08;border:1px solid rgba(248,186,8,.2)}
+.lb-badge.me{background:rgba(0,188,212,.15);color:#00BCD4;border:1px solid rgba(0,188,212,.2)}
+.lb-badge.part{background:rgba(37,211,102,.12);color:#25D366;border:1px solid rgba(37,211,102,.2)}
+.lb-date{font-size:9px;color:#606060;margin-top:2px}
+.lb-score{font-size:15px;font-weight:900;color:#F8BA08;white-space:nowrap}
+.lb-pts{font-size:9px;color:#606060;font-weight:500}
+
+/* ── Targets ── */
+.target{position:absolute;border-radius:16px;display:flex;align-items:center;justify-content:center;z-index:3;transition:transform .12s;cursor:pointer;animation:tIn .18s ease;-webkit-tap-highlight-color:transparent}
+.target.good{background:linear-gradient(135deg,rgba(248,186,8,.95),rgba(255,165,0,.95));border:2px solid rgba(255,220,60,.8);box-shadow:0 0 18px rgba(248,186,8,.3);color:#0D1B2A}
+.target.fake{background:linear-gradient(135deg,rgba(210,185,30,.9),rgba(180,160,10,.9));border:2px dashed rgba(200,200,50,.7);box-shadow:0 0 16px rgba(200,190,20,.22);color:#1a1a00;animation:tIn .18s ease,fakeTick .55s ease-in-out infinite}
+.target.noise{background:linear-gradient(135deg,#FF6F61,#F4A261);border:2px solid rgba(255,111,97,.65);box-shadow:0 0 18px rgba(255,111,97,.2);color:#fff}
+.target.trap{background:linear-gradient(135deg,#7B2FF7,#4A00E0);border:2px solid rgba(123,47,247,.8);box-shadow:0 0 20px rgba(123,47,247,.35);color:#fff;animation:tIn .18s ease,trapPulse .75s ease-in-out infinite}
+.pop{position:absolute;font-weight:900;font-size:14px;z-index:10;animation:popAnim .6s ease forwards;pointer-events:none;white-space:nowrap}
+.pop.good-pop{color:#FFD700}
+.pop.fake-pop{color:#c8b800;font-size:16px}
+.pop.noise-pop{color:#FF6F61}
+.pop.trap-pop{color:#B47BFF}
+.freeze-flash{position:absolute;inset:0;background:rgba(123,47,247,.14);z-index:9;animation:freezeFlash .7s ease forwards;pointer-events:none}
+.fake-flash{position:absolute;inset:0;background:rgba(200,185,0,.1);z-index:9;animation:fakeFlash .5s ease forwards;pointer-events:none}
+.combo-badge{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:8;font-size:clamp(22px,7vw,36px);font-weight:900;color:#F8BA08;animation:comboBadge .7s ease forwards;pointer-events:none}
+
+@keyframes tIn{from{opacity:0;transform:scale(.12)}to{opacity:1;transform:scale(1)}}
+@keyframes trapPulse{0%,100%{box-shadow:0 0 20px rgba(123,47,247,.3)}50%{box-shadow:0 0 36px rgba(123,47,247,.65)}}
+@keyframes fakeTick{0%,100%{opacity:1}50%{opacity:.75}}
+@keyframes freezeFlash{0%{opacity:1}100%{opacity:0}}
+@keyframes fakeFlash{0%{opacity:1}50%{opacity:.6}100%{opacity:0}}
+@keyframes comboBadge{0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}40%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}70%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(.8)}}
+@keyframes popAnim{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-32px) scale(1.3)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn .4s ease}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);z-index:9999;padding:12px 20px;border-radius:50px;background:#101E30;border:1px solid rgba(248,186,8,.3);color:#F8BA08;font-size:12px;font-weight:700;white-space:nowrap;transition:transform .35s ease,opacity .35s ease;opacity:0;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* ════════════════════════════════════════
+   CLASSEMENT TOURNOI
+   ════════════════════════════════════════ */
+.tourney-section{width:100%;margin-top:4px}
+.tourney-header{text-align:center;margin-bottom:16px}
+.tourney-header h2{font-size:clamp(18px,5vw,26px);font-weight:900;margin-bottom:5px}
+.tourney-header p{color:#808080;font-size:12px}
+.tourney-search-wrap{position:relative;margin-bottom:10px}
+.tourney-search-wrap svg.search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#4A5D70;pointer-events:none}
+.tourney-search{width:100%;padding:11px 36px 11px 38px;border-radius:50px;background:rgba(26,42,68,.7);border:2px solid rgba(255,255,255,.07);color:#fff;font-size:13px;font-family:inherit;font-weight:600;outline:none;transition:border-color .3s}
+.tourney-search:focus{border-color:rgba(248,186,8,.5)}
+.tourney-search::placeholder{color:#4A5D70;font-weight:400}
+.tourney-count{font-size:10px;color:#4A5D70;text-align:right;margin-bottom:10px;padding-right:4px}
+.tourney-table-wrap{border-radius:16px;overflow:hidden;background:rgba(26,42,68,.35);border:1px solid rgba(255,255,255,.05)}
+.tourney-table{width:100%;border-collapse:collapse}
+.tourney-th{padding:9px 10px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:#4A5D70;border-bottom:1px solid rgba(255,255,255,.06);text-align:left;background:rgba(13,27,42,.5)}
+.tourney-th.tc{text-align:center}
+.tourney-th.tr{text-align:right;padding-right:12px}
+.tourney-tr{border-bottom:1px solid rgba(255,255,255,.03);transition:background .2s;animation:fadeIn .25s ease}
+.tourney-tr:last-child .tourney-td{border-bottom:none}
+.tourney-tr.top1{background:linear-gradient(90deg,rgba(248,186,8,.08),transparent)}
+.tourney-tr.top2{background:linear-gradient(90deg,rgba(192,192,192,.05),transparent)}
+.tourney-tr.top3{background:linear-gradient(90deg,rgba(205,127,50,.05),transparent)}
+.tourney-tr.highlight{background:rgba(248,186,8,.09)!important;outline:1px solid rgba(248,186,8,.22)}
+.tourney-td{padding:9px 10px;font-size:12px;vertical-align:middle;border-bottom:1px solid rgba(255,255,255,.03)}
+.tourney-td.tc{text-align:center;padding-left:6px;padding-right:6px}
+.tourney-td.tr{text-align:right;padding-right:12px}
+.tourney-rank-num{font-size:13px}
+.tourney-name{font-weight:700;color:#fff;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80px}
+.tourney-tag{font-size:9px;color:#4A5D70;font-weight:500}
+.tourney-ref{font-size:10px;font-family:monospace;color:#A3B8CC;letter-spacing:.5px;font-weight:600;white-space:nowrap}
+.tourney-phone-val{font-size:10px;color:#606060;font-family:monospace;white-space:nowrap}
+.tourney-score{font-size:14px;font-weight:900;color:#F8BA08;white-space:nowrap}
+.tourney-pts{font-size:8px;color:#606060;font-weight:400}
+.tourney-empty{text-align:center;padding:28px;color:#4A5D70;font-size:12px}
+.tourney-no-result{text-align:center;padding:22px;color:#4A5D70;font-size:12px}
+.tourney-clear{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:#4A5D70;cursor:pointer;font-size:18px;padding:4px;line-height:1;display:none;font-family:inherit}
+.tourney-clear.visible{display:block}
+
+/* ── Mobile notif ── */
+#mobileNotif{display:none;position:fixed;inset:0;z-index:99999;background:rgba(7,14,26,.97);backdrop-filter:blur(18px);align-items:center;justify-content:center;padding:24px;flex-direction:column;text-align:center;font-family:'Montserrat',sans-serif}
+#mobileNotif.show{display:flex}
+.mob-icon{font-size:52px;margin-bottom:16px}
+.mob-title{font-size:20px;font-weight:900;color:#fff;margin-bottom:8px}
+.mob-title span{color:#F8BA08}
+.mob-desc{font-size:13px;color:#A3B8CC;line-height:1.7;max-width:340px;margin-bottom:24px}
+.mob-back-btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:50px;background:linear-gradient(135deg,#F8BA08,#FF7F00);color:#0D1B2A;font-weight:900;font-size:12px;text-transform:uppercase;letter-spacing:2px;border:none;cursor:pointer;font-family:inherit;box-shadow:0 4px 22px rgba(248,186,8,.35);transition:transform .2s}
+.mob-back-btn:active{transform:scale(.96)}
+.mob-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:50px;background:rgba(255,111,97,.1);border:1px solid rgba(255,111,97,.3);color:#FF6F61;font-size:10px;font-weight:700;margin-bottom:20px}
+
+/* ════════════════════════════════════════
+   ÉCRAN D'ACCUEIL (Welcome Screen)
+   ════════════════════════════════════════ */
+.welcome-overlay{position:fixed;inset:0;z-index:2000;background:rgba(7,14,26,.98);backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+.welcome-card{background:#101E30;border:1px solid rgba(248,186,8,.2);border-radius:28px;padding:28px 22px 32px;width:100%;max-width:420px;text-align:center}
+.welcome-logo{font-size:44px;margin-bottom:10px;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.welcome-tag{display:inline-block;color:#F8BA08;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:3px;margin-bottom:8px;padding:4px 12px;border-radius:50px;border:1px solid rgba(248,186,8,.25);background:rgba(248,186,8,.07)}
+.welcome-title{font-size:clamp(22px,7vw,32px);font-weight:900;margin-bottom:8px;line-height:1.2}
+.welcome-title span{color:#F8BA08}
+.welcome-desc{color:#A3B8CC;font-size:13px;line-height:1.7;margin-bottom:20px}
+.welcome-divider{height:1px;background:rgba(255,255,255,.06);margin:16px 0}
+.welcome-rewards{background:rgba(248,186,8,.05);border:1px solid rgba(248,186,8,.12);border-radius:16px;padding:14px 16px;margin-bottom:16px;text-align:left}
+.welcome-rewards-title{font-size:10px;font-weight:800;color:#F8BA08;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;text-align:center}
+.reward-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.reward-row:last-child{border-bottom:none}
+.reward-rank{font-size:18px;min-width:28px}
+.reward-label{font-size:12px;font-weight:700;color:#fff;flex:1;text-align:left;padding-left:8px}
+.reward-amount{font-size:13px;font-weight:900;color:#F8BA08}
+.welcome-period{background:rgba(26,42,68,.6);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:12px 14px;margin-bottom:16px;text-align:left}
+.period-row{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.period-row:last-child{margin-bottom:0}
+.period-row svg{color:#F8BA08;flex:0 0 auto}
+.period-row span{font-size:12px;color:#A3B8CC}
+.period-row strong{color:#fff}
+.welcome-note{font-size:11px;color:#606060;line-height:1.7;margin-bottom:20px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04)}
+.welcome-note em{color:#A3B8CC;font-style:normal}
+.welcome-btn-participate{width:100%;padding:15px;border-radius:14px;background:linear-gradient(135deg,#F8BA08,#FF7F00);color:#0D1B2A;font-weight:900;font-size:13px;text-transform:uppercase;letter-spacing:2px;cursor:pointer;transition:all .3s;border:none;font-family:inherit;box-shadow:0 4px 22px rgba(248,186,8,.3);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px}
+.welcome-btn-participate:active{transform:scale(.97)}
+.welcome-btn-fun{width:100%;padding:13px;border-radius:14px;background:transparent;color:#A3B8CC;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:1.5px;cursor:pointer;transition:all .3s;border:1px solid rgba(255,255,255,.1);font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px}
+.welcome-btn-fun:hover{border-color:rgba(255,255,255,.2);color:#fff}
+.welcome-btn-fun:active{transform:scale(.97)}
+
+/* ════════════════════════════════════════
+   FORMULAIRE AVANT JEU (Pseudo + Phone)
+   ════════════════════════════════════════ */
+.form-overlay{position:fixed;inset:0;z-index:2100;background:rgba(7,14,26,.97);backdrop-filter:blur(18px);display:none;align-items:center;justify-content:center;padding:24px}
+.form-overlay.show{display:flex}
+.form-card{background:#101E30;border:1px solid rgba(248,186,8,.25);border-radius:28px;padding:32px 24px;width:100%;max-width:420px;text-align:center}
+.form-card .logo-anim{font-size:36px;margin-bottom:12px;animation:float 3s ease-in-out infinite}
+.form-card h2{font-size:20px;font-weight:900;margin-bottom:6px}
+.form-card h2 span{color:#F8BA08}
+.form-card .form-sub{color:#808080;font-size:12px;line-height:1.7;margin-bottom:22px}
+.form-mode-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:50px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:18px}
+.form-mode-badge.participation{background:rgba(248,186,8,.12);border:1px solid rgba(248,186,8,.3);color:#F8BA08}
+.form-mode-badge.fun{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:#A3B8CC}
+.form-label{display:block;text-align:left;font-size:10px;font-weight:800;color:#606060;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;margin-top:14px}
+.form-input{width:100%;padding:13px 16px;border-radius:12px;background:rgba(26,42,68,.7);border:2px solid rgba(255,255,255,.08);color:#fff;font-size:15px;font-weight:700;outline:none;transition:border-color .3s;text-align:left;letter-spacing:.5px}
+.form-input:focus{border-color:#F8BA08}
+.form-input::placeholder{color:#4A5D70;font-weight:400}
+.form-hint{font-size:10px;color:#4A5D70;text-align:left;margin-top:4px;line-height:1.5}
+.form-hint.recommended{color:#F8BA08}
+.form-error{color:#FF6F61;font-size:11px;margin-top:8px;min-height:16px;text-align:left}
+.form-btn{width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#F8BA08,#FF7F00);color:#0D1B2A;font-weight:900;font-size:13px;text-transform:uppercase;letter-spacing:2px;cursor:pointer;transition:all .3s;margin-top:18px;border:none;font-family:inherit;box-shadow:0 4px 22px rgba(248,186,8,.3)}
+.form-btn:active{transform:scale(.97)}
+.form-btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ── Mini leaderboard ticker (dans form overlay) ── */
+.mini-lb{margin-top:20px;width:100%;text-align:left}
+.mini-lb-title{font-size:10px;font-weight:800;color:#808080;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;text-align:center}
+.mini-lb-ticker{position:relative;height:52px;overflow:hidden;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05)}
+.mini-lb-ticker-inner{position:absolute;width:100%;top:0;left:0;transition:transform .55s cubic-bezier(.4,0,.2,1)}
+.mini-lb-row{display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:8px;padding:0 10px;height:52px;border-radius:12px}
+.mini-lb-row.top1{background:linear-gradient(90deg,rgba(248,186,8,.09),rgba(248,186,8,.02))}
+.mini-lb-row.top2{background:linear-gradient(90deg,rgba(192,192,192,.06),transparent)}
+.mini-lb-row.top3{background:linear-gradient(90deg,rgba(205,127,50,.06),transparent)}
+.mini-lb-row.top4,.mini-lb-row.top5{background:transparent}
+.mini-lb-rank{font-size:15px;text-align:center}
+.mini-lb-pseudo{font-size:12px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-lb-score{font-size:13px;font-weight:900;color:#F8BA08;white-space:nowrap}
+.mini-lb-pts{font-size:9px;color:#606060}
+.mini-lb-loading{text-align:center;color:#4A5D70;font-size:11px;padding:16px 0}
+.mini-lb-dots{display:flex;justify-content:center;gap:5px;margin-top:8px}
+.mini-lb-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.15);transition:background .3s,transform .3s}
+.mini-lb-dot.active{background:#F8BA08;transform:scale(1.3)}
+
+/* ════════════════════════════════════════
+   MODALE DE CONFIRMATION SCORE
+   ════════════════════════════════════════ */
+.confirm-overlay{position:fixed;inset:0;z-index:3500;background:rgba(7,14,26,.97);backdrop-filter:blur(18px);display:none;align-items:center;justify-content:center;padding:24px}
+.confirm-overlay.show{display:flex}
+.confirm-card{background:#101E30;border:1px solid rgba(248,186,8,.25);border-radius:28px;padding:32px 24px;width:100%;max-width:380px;text-align:center}
+.confirm-icon{font-size:44px;margin-bottom:12px}
+.confirm-title{font-size:20px;font-weight:900;color:#fff;margin-bottom:6px}
+.confirm-title span{color:#F8BA08}
+.confirm-score-box{background:rgba(248,186,8,.07);border:1px solid rgba(248,186,8,.18);border-radius:16px;padding:16px;margin:16px 0;display:inline-block;min-width:140px}
+.confirm-score-val{font-size:clamp(40px,12vw,58px);font-weight:900;color:#F8BA08;line-height:1}
+.confirm-score-lbl{font-size:10px;color:#808080;text-transform:uppercase;letter-spacing:2px;margin-top:2px}
+.confirm-rank{font-size:13px;color:#A3B8CC;margin-bottom:16px}
+.confirm-note{font-size:11px;color:#606060;line-height:1.7;margin-bottom:22px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04)}
+.confirm-btn-yes{width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,#F8BA08,#FF7F00);color:#0D1B2A;font-weight:900;font-size:13px;text-transform:uppercase;letter-spacing:2px;cursor:pointer;border:none;font-family:inherit;margin-bottom:10px;box-shadow:0 4px 22px rgba(248,186,8,.3);transition:all .3s}
+.confirm-btn-yes:active{transform:scale(.97)}
+.confirm-btn-no{width:100%;padding:12px;border-radius:14px;background:transparent;color:#A3B8CC;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:1.5px;cursor:pointer;border:1px solid rgba(255,255,255,.1);font-family:inherit;transition:all .3s}
+.confirm-btn-no:hover{border-color:rgba(255,255,255,.2);color:#fff}
+.confirm-btn-no:active{transform:scale(.97)}
+
+/* ════════════════════════════════════════
+   ÉCRAN DE FIN AMÉLIORÉ
+   ════════════════════════════════════════ */
+.end-overlay{position:fixed;inset:0;z-index:3000;background:rgba(7,14,26,.97);backdrop-filter:blur(18px);display:none;align-items:center;justify-content:center;padding:16px;flex-direction:column;overflow-y:auto}
+.end-overlay.show{display:flex}
+.end-card{background:#101E30;border:1px solid rgba(248,186,8,.2);border-radius:28px;padding:24px 20px 28px;width:100%;max-width:420px;text-align:center;overflow-y:auto;max-height:92vh}
+.end-score-big{font-size:clamp(50px,15vw,76px);font-weight:900;color:#F8BA08;line-height:1;margin:10px 0 4px}
+.end-rank{font-size:13px;color:#A3B8CC;margin-bottom:8px}
+.end-pseudo-line{font-size:14px;font-weight:800;color:#fff;margin-bottom:14px}
+.end-pseudo-line span{color:#F8BA08}
+.end-divider{height:1px;background:rgba(255,255,255,.06);margin:14px 0}
+
+/* Référence box */
+.end-ref-box{background:rgba(248,186,8,.06);border:1px solid rgba(248,186,8,.18);border-radius:14px;padding:14px 16px;margin-bottom:14px;text-align:left}
+.end-ref-label{font-size:9px;font-weight:800;color:#F8BA08;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
+.end-ref-value{font-size:16px;font-weight:900;color:#fff;letter-spacing:2px;font-family:monospace;word-break:break-all}
+.end-ref-copy{display:inline-flex;align-items:center;gap:5px;margin-top:8px;padding:5px 12px;border-radius:50px;background:rgba(248,186,8,.1);border:1px solid rgba(248,186,8,.2);color:#F8BA08;font-size:10px;font-weight:700;cursor:pointer;transition:all .2s;border-style:none;font-family:inherit}
+.end-ref-copy:active{transform:scale(.95)}
+
+/* Phone box */
+.end-phone-box{background:rgba(37,211,102,.05);border:1px solid rgba(37,211,102,.15);border-radius:14px;padding:14px 16px;margin-bottom:14px;text-align:left}
+.end-phone-label{font-size:9px;font-weight:800;color:#25D366;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px}
+.end-phone-value{font-size:14px;font-weight:800;color:#fff}
+.end-phone-none{font-size:11px;color:#4A5D70;font-style:italic}
+
+/* Conservation note */
+.end-conservation-note{background:rgba(255,165,0,.06);border:1px solid rgba(255,165,0,.15);border-radius:12px;padding:12px 14px;margin-bottom:16px;text-align:left}
+.end-conservation-note p{font-size:11px;color:#F4A261;line-height:1.7;font-weight:600}
+.end-conservation-note strong{color:#F8BA08}
+
+.end-msg{font-size:13px;color:#A3B8CC;line-height:1.8;margin-bottom:10px}
+.end-msg strong{color:#fff}
+.end-fb-link{display:inline-flex;align-items:center;gap:7px;padding:11px 20px;border-radius:50px;background:rgba(24,119,242,.15);border:1px solid rgba(24,119,242,.35);color:#4A90E2;font-size:12px;font-weight:800;text-decoration:none;margin-bottom:16px;transition:all .3s}
+.end-fb-link:active{transform:scale(.97)}
+.end-site-link{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:50px;background:rgba(248,186,8,.08);border:1px solid rgba(248,186,8,.2);color:#F8BA08;font-size:11px;font-weight:700;text-decoration:none;margin-bottom:18px;transition:all .3s}
+.end-replay-btn{width:100%;padding:13px;border-radius:13px;background:linear-gradient(135deg,#F8BA08,#FF7F00);color:#0D1B2A;font-weight:900;font-size:13px;text-transform:uppercase;letter-spacing:2px;cursor:pointer;transition:all .3s;border:none;font-family:inherit;margin-top:4px}
+.end-replay-btn:active{transform:scale(.97)}
+</style>
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init("fTwwqQLxQwVK3ZTrO");</script>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     ÉCRAN D'ACCUEIL
+     ══════════════════════════════════════ -->
+<div class="welcome-overlay" id="welcomeOverlay">
+  <div class="welcome-card">
+    <div class="welcome-logo">🏆</div>
+    <div class="welcome-tag">Ankino M'lalao</div>
+    <h1 class="welcome-title">Jeu <span>Concours</span></h1>
+    <p class="welcome-desc">Participez et tentez de gagner des crédits !</p>
+
+    <!-- Récompenses -->
+    <div class="welcome-rewards">
+      <div class="welcome-rewards-title">🎁 Récompenses</div>
+      <div class="reward-row">
+        <div class="reward-rank">🥇</div>
+        <div class="reward-label">1er prix</div>
+        <div class="reward-amount">3 000 Ar</div>
+      </div>
+      <div class="reward-row">
+        <div class="reward-rank">🥈</div>
+        <div class="reward-label">2e prix</div>
+        <div class="reward-amount">1 000 Ar</div>
+      </div>
+      <div class="reward-row">
+        <div class="reward-rank">🥉</div>
+        <div class="reward-label">3e prix</div>
+        <div class="reward-amount">5 00 Ar</div>
+      </div>
+    </div>
+
+    <!-- Période -->
+    <div class="welcome-period">
+      <div class="period-row">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span>Jusqu'au <strong>10 mai</strong></span>
+      </div>
+      <div class="period-row">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Remise : <strong>samedi 10 mai à 19h</strong></span>
+      </div>
+    </div>
+
+    <!-- Note -->
+    <div class="welcome-note">
+      <em>💡 Vous pouvez aussi jouer juste pour le fun, sans participer au concours.</em>
+    </div>
+
+    <!-- Boutons -->
+    <button class="welcome-btn-participate" onclick="chooseMode('participation')">
+      🏆 Jouer pour participer
+    </button>
+    <button class="welcome-btn-fun" onclick="chooseMode('fun')">
+      🎮 Jouer pour le fun
+    </button>
+
+    <!-- Classements double colonne -->
+    <div style="margin-top:18px;border-top:1px solid rgba(255,255,255,.06);padding-top:16px">
+      <div style="font-size:10px;font-weight:800;color:#808080;text-transform:uppercase;letter-spacing:2px;text-align:center;margin-bottom:12px">📊 Classements en direct</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <!-- Concours -->
+        <div style="background:rgba(248,186,8,.04);border:1px solid rgba(248,186,8,.12);border-radius:14px;overflow:hidden">
+          <div style="padding:8px 10px 6px;border-bottom:1px solid rgba(248,186,8,.08);text-align:center">
+            <div style="font-size:9px;font-weight:800;color:#F8BA08;text-transform:uppercase;letter-spacing:1px">🏆 Concours</div>
+          </div>
+          <div id="welcomeLbContest" style="padding:4px 6px 6px">
+            <div style="text-align:center;color:#4A5D70;font-size:10px;padding:10px 0">Chargement…</div>
+          </div>
+        </div>
+        <!-- Fun -->
+        <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;overflow:hidden">
+          <div style="padding:8px 10px 6px;border-bottom:1px solid rgba(255,255,255,.06);text-align:center">
+            <div style="font-size:9px;font-weight:800;color:#A3B8CC;text-transform:uppercase;letter-spacing:1px">🎮 Fun</div>
+          </div>
+          <div id="welcomeLbFun" style="padding:4px 6px 6px">
+            <div style="text-align:center;color:#4A5D70;font-size:10px;padding:10px 0">Chargement…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     FORMULAIRE AVANT JEU
+     ══════════════════════════════════════ -->
+<div class="form-overlay" id="formOverlay">
+  <div class="form-card">
+    <div class="logo-anim">⚡</div>
+    <h2>Signal <span>Rush</span></h2>
+    <p class="form-sub">Renseignez vos informations pour commencer !</p>
+
+    <div class="form-mode-badge participation" id="formModeBadge">
+      🏆 Mode participation
+    </div>
+
+    <label class="form-label">Pseudo <span style="color:#FF6F61">*</span></label>
+    <input class="form-input" id="formPseudo" type="text" placeholder="Votre prénom ou pseudo" maxlength="32" autocomplete="off"/>
+    <div class="form-hint">Votre nom dans le classement</div>
+
+    <div id="phoneSection">
+      <label class="form-label">Téléphone <span id="phoneOptLabel" style="color:#4A5D70;font-weight:400;font-size:9px">(optionnel)</span></label>
+      <input class="form-input" id="formPhone" type="tel" placeholder="Ex: 034 XX XXX XX" maxlength="20" autocomplete="tel"/>
+      <div class="form-hint recommended" id="phoneHintText">📲 Recommandé pour recevoir votre récompense via MVola</div>
+    </div>
+
+    <div class="form-error" id="formError"></div>
+    <button class="form-btn" id="formStartBtn" onclick="confirmForm()">Commencer ⚡</button>
+
+    <!-- Mini leaderboard top 5 participation — défilement auto -->
+    <div class="mini-lb">
+      <div class="mini-lb-title">🏆 Top 5 — Concours</div>
+      <div class="mini-lb-ticker" id="miniLbTicker">
+        <div class="mini-lb-ticker-inner" id="miniLbInner">
+          <div class="mini-lb-loading" style="padding:16px 0;text-align:center;color:#4A5D70;font-size:11px">Chargement…</div>
+        </div>
+      </div>
+      <div class="mini-lb-dots" id="miniLbDots"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE PRINCIPALE
+     ══════════════════════════════════════ -->
+<div class="page-wrap">
+  <div class="header">
+    <div class="top-bar">
+      <a href="/" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        Retour
+      </a>
+      <div class="logo-mini">ANKINO <span>MG</span></div>
+    </div>
+    <div class="tag">Ankino M'lalao</div>
+    <h1 class="title">Signal <span class="gd">Rush</span></h1>
+    <p class="subtitle">Captez les vrais signaux, évitez les pièges et enchaînez les combos !</p>
+  </div>
+
+  <div class="panel">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div class="pill" style="margin-bottom:0">Défi digital</div>
+      <div style="display:flex;gap:6px">
+        <div style="display:flex;align-items:center;gap:3px;font-size:10px;color:#A3B8CC"><div style="width:9px;height:9px;border-radius:2px;background:#F8BA08;flex:0 0 auto"></div>+1</div>
+        <div style="display:flex;align-items:center;gap:3px;font-size:10px;color:#A3B8CC"><div style="width:9px;height:9px;border-radius:2px;background:#c8b400;border:1.5px dashed #e0d000;flex:0 0 auto"></div>-2</div>
+        <div style="display:flex;align-items:center;gap:3px;font-size:10px;color:#A3B8CC"><div style="width:9px;height:9px;border-radius:2px;background:#FF6F61;flex:0 0 auto"></div>-2</div>
+        <div style="display:flex;align-items:center;gap:3px;font-size:10px;color:#A3B8CC"><div style="width:9px;height:9px;border-radius:2px;background:#7B2FF7;flex:0 0 auto"></div>-3</div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="statScore">0</b><span>Score</span></div>
+      <div class="stat"><b id="statCombo">×1</b><span>Combo</span></div>
+    </div>
+    <div class="extras">
+      <div class="extra-box"><label>Niveau</label><div class="val" id="diffLabel">Normal</div><div class="diff-bar"><div class="diff-fill" id="diffFill" style="width:33%"></div></div></div>
+      <div class="extra-box"><label>Parties jouées</label><div class="val" id="gamesPlayed">0</div></div>
+    </div>
+    <button class="start-btn" id="startBtn" onclick="initGame()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      Jouer maintenant
+    </button>
+  </div>
+
+  <!-- HUD : timer + score pendant la partie -->
+  <div id="gameHud" style="display:none;width:100%;border-radius:16px;background:rgba(26,42,68,.6);border:1px solid rgba(255,255,255,.07);backdrop-filter:blur(8px);padding:10px 16px;display:none;align-items:center;justify-content:space-between;gap:12px">
+    <!-- Score -->
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="text-align:center;min-width:56px">
+        <div style="font-size:9px;font-weight:800;color:#00BCD4;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:1px">Score</div>
+        <div id="liveScoreVal" style="font-size:26px;font-weight:900;color:#fff;line-height:1">0</div>
+      </div>
+      <div style="width:1px;height:36px;background:rgba(255,255,255,.07)"></div>
+      <div style="text-align:center;min-width:44px">
+        <div style="font-size:9px;font-weight:800;color:#808080;text-transform:uppercase;letter-spacing:1px;margin-bottom:1px">Combo</div>
+        <div id="liveComboVal" style="font-size:18px;font-weight:900;color:#F8BA08;line-height:1">×1</div>
+      </div>
+    </div>
+    <!-- Timer anneau -->
+    <div style="position:relative;width:56px;height:56px;flex:0 0 auto" id="timerRing">
+      <svg width="56" height="56" viewBox="0 0 56 56" style="transform:rotate(-90deg)">
+        <circle cx="28" cy="28" r="24" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="4"/>
+        <circle id="timerArc" cx="28" cy="28" r="24" fill="none" stroke="#F8BA08" stroke-width="4" stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="0" style="transition:stroke-dashoffset .9s linear,stroke .5s"/>
+      </svg>
+      <div id="timerNum" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#F8BA08">120</div>
+    </div>
+  </div>
+
+  <div class="board" id="board">
+    <div class="overlay" id="countdownOverlay" style="background:rgba(13,27,42,.92)">
+      <div id="countdownText" style="font-size:clamp(52px,18vw,90px);font-weight:900;color:#F8BA08;line-height:1;animation:comboBadge .6s ease forwards"></div>
+      <div id="countdownSub" style="font-size:14px;color:#A3B8CC;margin-top:8px;font-weight:700"></div>
+    </div>
+    <div class="hint" id="hint">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <b>Prêt à jouer ?</b>
+      <p>Appuyez sur <strong style="color:#F8BA08">Jouer maintenant</strong><br>et captez les signaux !</p>
+    </div>
+    <div class="overlay" id="resultOverlay">
+      <div style="font-size:12px;color:#808080;margin-bottom:4px">Partie terminée</div>
+      <div class="res-score-big" id="resScore">0</div>
+      <div class="res-rank-txt" id="resRank"></div>
+      <div class="res-best-txt" id="resBest"></div>
+      <div class="res-actions">
+        <button class="start-btn" style="padding:12px 20px;font-size:11px" onclick="initGame()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Rejouer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Classement double : Concours + Fun -->
+  <div class="leaderboard-section">
+    <div class="lb-header">
+      <h2>🏆 Classements</h2>
+      <p>Top 5 en temps réel — concours & fun</p>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:0 2px">
+      <span id="lbUpdated" style="color:#4A5D70;font-size:10px">Mise à jour en cours…</span>
+      <button class="lb-refresh" onclick="loadLeaderboard()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        Actualiser
+      </button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <!-- Colonne Concours -->
+      <div class="lb-wrap">
+        <div style="padding:10px 12px 8px;border-bottom:1px solid rgba(255,255,255,.05);text-align:center">
+          <div style="font-size:9px;font-weight:800;color:#F8BA08;text-transform:uppercase;letter-spacing:1.5px">🏆 Concours</div>
+          <div style="font-size:9px;color:#4A5D70;margin-top:2px">avant le 10 mai</div>
+        </div>
+        <div id="lbBody"><div class="lb-loading" style="padding:20px 10px;font-size:11px">Chargement…</div></div>
+      </div>
+      <!-- Colonne Fun -->
+      <div class="lb-wrap">
+        <div style="padding:10px 12px 8px;border-bottom:1px solid rgba(255,255,255,.05);text-align:center">
+          <div style="font-size:9px;font-weight:800;color:#A3B8CC;text-transform:uppercase;letter-spacing:1.5px">🎮 Fun</div>
+          <div style="font-size:9px;color:#4A5D70;margin-top:2px">meilleurs scores</div>
+        </div>
+        <div id="lbBodyFun"><div class="lb-loading" style="padding:20px 10px;font-size:11px">Chargement…</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLASSEMENT TOURNOI DÉTAILLÉ -->
+  <div class="tourney-section">
+    <div class="tourney-header">
+      <h2>🎖️ Classement <span style="color:#F8BA08">Tournoi</span></h2>
+      <p>Concours — détails complets par joueur</p>
+    </div>
+    <div class="tourney-search-wrap">
+      <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="tourney-search" id="tourneySearch" type="text" placeholder="Recherche par référence, nom…" autocomplete="off" oninput="filterTourney(this.value)"/>
+      <button class="tourney-clear" id="tourneyClear" onclick="clearTourneySearch()" title="Effacer">×</button>
+    </div>
+    <div class="tourney-count" id="tourneyCount"></div>
+    <div class="tourney-table-wrap">
+      <table class="tourney-table">
+        <thead>
+          <tr>
+            <th class="tourney-th tc">#</th>
+            <th class="tourney-th">Nom</th>
+            <th class="tourney-th">Référence</th>
+            <th class="tourney-th tr">Score</th>
+          </tr>
+        </thead>
+        <tbody id="tourneyBody">
+          <tr><td colspan="4" class="tourney-empty">Chargement…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     MODALE CONFIRMATION SCORE (CONCOURS)
+     ══════════════════════════════════════ -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-card">
+    <div class="confirm-icon">🏆</div>
+    <h2 class="confirm-title">Soumettre votre <span>score</span> ?</h2>
+    <p class="confirm-rank" id="confirmRankTxt"></p>
+    <div class="confirm-score-box">
+      <div class="confirm-score-val" id="confirmScoreVal">0</div>
+      <div class="confirm-score-lbl">points</div>
+    </div>
+    <p class="confirm-note">🏆 <strong style="color:#fff">OUI</strong> : votre score sera enregistré au classement du concours avec votre référence joueur.<br><br>❌ <strong style="color:#fff">NON</strong> : la partie est annulée, aucune donnée n'est sauvegardée.</p>
+    <button class="confirm-btn-yes" onclick="confirmSubmit()">🏆 Oui, inscrire mon score au concours</button>
+    <button class="confirm-btn-no" onclick="cancelSubmit()">❌ Non, annuler</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     OVERLAY FIN DE PARTIE
+     ══════════════════════════════════════ -->
+<div class="end-overlay" id="endOverlay">
+  <div class="end-card">
+    <div style="font-size:11px;color:#808080;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">Partie terminée !</div>
+    <div class="end-score-big" id="endScoreVal">0</div>
+    <div class="end-rank" id="endRankVal"></div>
+    <div class="end-pseudo-line">Joueur : <span id="endPseudoVal">—</span></div>
+
+    <div class="end-divider"></div>
+
+    <!-- Référence (participation seulement) -->
+    <div class="end-ref-box" id="endRefBox" style="display:none">
+      <div class="end-ref-label">📋 Votre référence</div>
+      <div class="end-ref-value" id="endRefVal">—</div>
+      <button class="end-ref-copy" onclick="copyRef()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copier
+      </button>
+    </div>
+
+    <!-- Téléphone -->
+    <div class="end-phone-box" id="endPhoneBox" style="display:none">
+      <div class="end-phone-label">📱 Téléphone</div>
+      <div class="end-phone-value" id="endPhoneVal">—</div>
+    </div>
+
+    <!-- Note conservation -->
+    <div class="end-conservation-note" id="endConservationNote" style="display:none">
+      <p>📌 <strong>Conservez votre référence.</strong> Elle sera utilisée pour la remise via MVola si vous remportez le prix.</p>
+    </div>
+
+    <div class="end-divider"></div>
+
+    <p class="end-msg">Merci d'avoir joué ! Suivez la page Facebook d'Ankino MG :</p>
+    <a class="end-fb-link" href="https://web.facebook.com/ankino.mg" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      facebook.com/ankino.mg
+    </a>
+
+    <button class="end-replay-btn" onclick="replayFromEnd()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:6px"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      Rejouer
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════════════════
+     MOBILE NOTIF
+     ══════════════════════════════════════ -->
+<div id="mobileNotif">
+  <div class="mob-icon">📱</div>
+  <div class="mob-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>Mobile Only</div>
+  <div class="mob-title">Signal <span>Rush</span></div>
+  <div class="mob-desc">Ce jeu est optimisé pour les appareils mobiles. Pour une expérience optimale, ouvrez cette page depuis votre smartphone.</div>
+  <button class="mob-back-btn" onclick="history.back()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>Retour</button>
+</div>
+
+<!-- ══════════════════════════════════════
+     SCRIPTS
+     ══════════════════════════════════════ -->
+<script>
+document.addEventListener('contextmenu',function(e){e.preventDefault();return false;});
+document.addEventListener('selectstart',function(e){e.preventDefault();return false;});
+
+// ── Variables globales ──
+var currentPseudo = '';
+var currentPhone  = '';
+var currentMode   = 'fun'; // 'fun' | 'participation'
+var currentRef    = '';
+var score = 0, combo = 1, timeLeft = 120, running = false;
+var gameElapsed = 0;
+var best = parseInt(localStorage.getItem('sr_best') || '0');
+var gamesPlayed = parseInt(localStorage.getItem('sr_games') || '0');
+var timerInterval = null, spawnInterval = null;
+var frozen = false, freezeTimeout = null;
+var lastSubmitted = null;
+var TIER_SIZE = 60;
+
+// ── ID appareil unique (persisté) — évite les collisions de pseudo ──
+var deviceId = localStorage.getItem('sr_device_id');
+if (!deviceId) {
+  deviceId = Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4);
+  localStorage.setItem('sr_device_id', deviceId);
+}
+var ICONS = {
+  good: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+  fake: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+  noise:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+  trap: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+};
+
+// ── Génération de la référence jjmmaahhmmss ──
+function generateRef() {
+  var now = new Date();
+  var dd   = String(now.getDate()).padStart(2,'0');
+  var mm   = String(now.getMonth()+1).padStart(2,'0');
+  var aa   = String(now.getFullYear());
+  var hh   = String(now.getHours()).padStart(2,'0');
+  var min  = String(now.getMinutes()).padStart(2,'0');
+  var ss   = String(now.getSeconds()).padStart(2,'0');
+  return dd + mm + aa + hh + min + ss;
+}
+
+// ── Étape 1 : Choisir le mode ──
+function chooseMode(mode) {
+  currentMode = mode;
+  var badge       = document.getElementById('formModeBadge');
+  var phoneSection= document.getElementById('phoneSection');
+  if(mode === 'participation') {
+    badge.className = 'form-mode-badge participation';
+    badge.textContent = '🏆 Mode participation';
+    phoneSection.style.display = 'block';
+  } else {
+    badge.className = 'form-mode-badge fun';
+    badge.textContent = '🎮 Mode fun';
+    phoneSection.style.display = 'none';
+    document.getElementById('formPhone').value = '';
+  }
+  document.getElementById('welcomeOverlay').style.display = 'none';
+  document.getElementById('formOverlay').classList.add('show');
+}
+
+// ── Étape 2 : Valider le formulaire ──
+document.getElementById('formPseudo').addEventListener('keydown', function(e){
+  if(e.key === 'Enter') confirmForm();
+});
+
+function confirmForm() {
+  var pseudo = document.getElementById('formPseudo').value.trim();
+  var phone  = document.getElementById('formPhone').value.trim();
+  var err    = document.getElementById('formError');
+  if(!pseudo) {
+    err.textContent = 'Veuillez entrer un pseudo ou prénom pour continuer.';
+    return;
+  }
+  err.textContent = '';
+  currentPseudo = pseudo;
+  currentPhone  = phone;
+  document.getElementById('formOverlay').classList.remove('show');
+  loadLeaderboard();
+}
+
+// ── Jeu ──
+function initGame() {
+  var btn = document.getElementById('startBtn');
+  btn.disabled = true;
+  var board = document.getElementById('board');
+  board.scrollIntoView({behavior:'smooth', block:'center'});
+  var cdOverlay = document.getElementById('countdownOverlay');
+  var cdText    = document.getElementById('countdownText');
+  var cdSub     = document.getElementById('countdownSub');
+  document.getElementById('hint').style.display = 'none';
+  cdOverlay.classList.add('show');
+  var steps = [
+    {txt:'3', sub:'Préparez-vous…'},
+    {txt:'2', sub:'Restez concentré !'},
+    {txt:'1', sub:'C\'est parti !'},
+    {txt:'Go!', sub:'Captez les signaux ⚡'},
+  ];
+  var i = 0;
+  function showStep() {
+    cdText.textContent = steps[i].txt;
+    cdSub.textContent  = steps[i].sub;
+    cdText.style.animation = 'none';
+    void cdText.offsetWidth;
+    cdText.style.animation = 'comboBadge .55s ease forwards';
+    i++;
+    if(i < steps.length) {
+      setTimeout(showStep, 750);
+    } else {
+      setTimeout(function(){
+        cdOverlay.classList.remove('show');
+        btn.disabled = false;
+        document.getElementById('gameHud').style.display = 'flex';
+        document.getElementById('liveScoreVal').textContent = '0';
+        document.getElementById('liveComboVal').textContent = '×1';
+        startGame();
+      }, 600);
+    }
+  }
+  showStep();
+}
+
+function startGame() {
+  var board = document.getElementById('board');
+  score = 0; combo = 1; timeLeft = 120; frozen = false; gameElapsed = 0;
+  running = true;
+  document.getElementById('hint').style.display = 'none';
+  document.getElementById('resultOverlay').classList.remove('show');
+  updateUI();
+  clearInterval(timerInterval);
+  clearInterval(spawnInterval);
+  board.querySelectorAll('.target,.pop,.combo-badge,.freeze-flash,.fake-flash').forEach(function(el){el.remove()});
+  updateTimerArc(timeLeft);
+  timerInterval = setInterval(function(){
+    if(!running) return;
+    timeLeft--;
+    gameElapsed++;
+    updateTimerArc(timeLeft);
+    document.getElementById('timerNum').textContent = timeLeft;
+    scheduleSpawn();
+    if(timeLeft <= 0){ endGame(); }
+  }, 1000);
+  scheduleSpawn();
+}
+
+function scheduleSpawn() {
+  var diff = getDiff();
+  clearInterval(spawnInterval);
+  spawnInterval = setInterval(function(){
+    if(!running) return;
+    spawnTarget();
+  }, diff.spawnMs);
+}
+
+function getDiff() {
+  var t = gameElapsed;
+  var progress = t / 120;
+  var spawnMs = Math.round(550 * Math.pow(0.29, progress));
+  spawnMs = Math.max(160, spawnMs);
+  var lifeMs = Math.round(1200 * Math.pow(0.4, progress));
+  lifeMs = Math.max(480, lifeMs);
+  var label, fillW;
+  if(progress < 0.25)      { label = 'Rapide';  fillW = '25%'; }
+  else if(progress < 0.50) { label = 'Intense'; fillW = '50%'; }
+  else if(progress < 0.75) { label = 'Expert';  fillW = '75%'; }
+  else                      { label = '🔥 Rush!'; fillW = '100%'; }
+  return {label: label, fillW: fillW, spawnMs: spawnMs, lifeMs: lifeMs};
+}
+
+function updateDiffUI() {
+  var d = getDiff();
+  document.getElementById('diffLabel').textContent = d.label;
+  document.getElementById('diffFill').style.width = d.fillW;
+}
+
+function updateTimerArc(t) {
+  var arc = document.getElementById('timerArc');
+  var circ = 150.8; // 2 * PI * 24
+  var pct = t / 120;
+  arc.style.strokeDashoffset = circ * (1 - pct);
+  arc.style.stroke = t > 30 ? '#F8BA08' : '#FF6F61';
+  // Aussi changer couleur du timer num
+  document.getElementById('timerNum').style.color = t > 30 ? '#F8BA08' : '#FF6F61';
+}
+
+function spawnTarget() {
+  if(frozen) return;
+  var board = document.getElementById('board');
+  var bw = board.offsetWidth, bh = board.offsetHeight;
+  var size = TIER_SIZE;
+  var x = Math.random() * (bw - size - 12) + 6;
+  var y = Math.random() * (bh - size - 12) + 6;
+  var r = Math.random();
+  var type;
+  if(r < 0.42) type = 'good';
+  else if(r < 0.60) type = 'fake';
+  else if(r < 0.80) type = 'noise';
+  else type = 'trap';
+  var el = document.createElement('div');
+  el.className = 'target ' + type;
+  el.style.cssText = 'left:'+x+'px;top:'+y+'px;width:'+size+'px;height:'+size+'px';
+  el.innerHTML = ICONS[type];
+  el.dataset.type = type;
+  el.addEventListener('click', function(){ hitTarget(el, type, x, y, size); });
+  el.addEventListener('touchstart', function(e){ e.preventDefault(); hitTarget(el, type, x, y, size); }, {passive:false});
+  board.appendChild(el);
+  var diff = getDiff();
+  setTimeout(function(){
+    if(el.parentNode){ el.remove(); }
+  }, diff.lifeMs);
+}
+
+function hitTarget(el, type, x, y, size) {
+  if(!running || el.dataset.hit) return;
+  el.dataset.hit = '1';
+  el.remove();
+  var cx = x + size/2, cy = y + size/2;
+  if(type === 'good') {
+    var pts = combo;
+    score += pts;
+    combo = Math.min(combo + 1, 4);
+    showPop('+'+pts, cx, cy, 'good-pop');
+    if(combo >= 3) showCombo('×'+combo);
+  } else if(type === 'fake') {
+    score = Math.max(0, score - 2);
+    combo = 1;
+    showPop('−2 Faux!', cx, cy, 'fake-pop');
+    flashBoard('fake-flash');
+  } else if(type === 'noise') {
+    score = Math.max(0, score - 2);
+    combo = 1;
+    showPop('−2 Bruit', cx, cy, 'noise-pop');
+  } else if(type === 'trap') {
+    score = Math.max(0, score - 3);
+    combo = 1;
+    showPop('−3 Piège!', cx, cy, 'trap-pop');
+    doFreeze();
+  }
+  updateUI();
+  updateDiffUI();
+}
+
+function doFreeze() {
+  if(!running) return;
+  frozen = true;
+  flashBoard('freeze-flash');
+  clearTimeout(freezeTimeout);
+  freezeTimeout = setTimeout(function(){ frozen = false; }, 700);
+}
+
+function flashBoard(cls) {
+  var board = document.getElementById('board');
+  var f = document.createElement('div');
+  f.className = cls;
+  board.appendChild(f);
+  setTimeout(function(){ if(f.parentNode) f.remove(); }, 700);
+}
+
+function showPop(txt, x, y, cls) {
+  var board = document.getElementById('board');
+  var p = document.createElement('div');
+  p.className = 'pop ' + cls;
+  p.style.left = x + 'px';
+  p.style.top = y + 'px';
+  p.textContent = txt;
+  board.appendChild(p);
+  setTimeout(function(){ if(p.parentNode) p.remove(); }, 700);
+}
+
+function showCombo(txt) {
+  var board = document.getElementById('board');
+  var c = document.createElement('div');
+  c.className = 'combo-badge';
+  c.textContent = txt;
+  board.appendChild(c);
+  setTimeout(function(){ if(c.parentNode) c.remove(); }, 800);
+}
+
+function updateUI() {
+  document.getElementById('statScore').textContent = score;
+  document.getElementById('statCombo').textContent = '×' + combo;
+  var ls = document.getElementById('liveScoreVal');
+  if (ls) ls.textContent = score;
+  var lc = document.getElementById('liveComboVal');
+  if (lc) lc.textContent = '×' + combo;
+}
+
+// ── Fin du jeu ──
+function endGame() {
+  running = false;
+  clearInterval(timerInterval);
+  clearInterval(spawnInterval);
+  document.getElementById('board').querySelectorAll('.target').forEach(function(el){ el.remove(); });
+  document.getElementById('gameHud').style.display = 'none';
+
+  if(score > best) {
+    best = score;
+    localStorage.setItem('sr_best', best);
+  }
+  gamesPlayed++;
+  localStorage.setItem('sr_games', gamesPlayed);
+  document.getElementById('gamesPlayed').textContent = gamesPlayed;
+  document.getElementById('resScore').textContent = score;
+  var rank = getRankLabel(score);
+  document.getElementById('resRank').textContent = rank;
+  document.getElementById('resBest').textContent = 'Record : ' + best + ' pts';
+  document.getElementById('resultOverlay').classList.add('show');
+  updateDiffUI();
+  updateUI();
+
+  // Générer la référence unique de partie (anti-doublon)
+  currentRef = generateRef();
+
+  if (currentMode === 'participation') {
+    // MODE CONCOURS → demander confirmation avant d'enregistrer
+    setTimeout(function(){
+      document.getElementById('confirmScoreVal').textContent = score;
+      document.getElementById('confirmRankTxt').textContent = rank;
+      document.getElementById('confirmOverlay').classList.add('show');
+    }, 1800);
+  } else {
+    // MODE FUN → enregistrer le score directement, pas d'email, pas de référence
+    var dateStr = new Date().toLocaleDateString('fr-FR');
+    lastSubmitted = {pseudo: currentPseudo, score: score, mode: 'fun'};
+    saveToLeaderboard(currentPseudo, score, dateStr, 'fun');
+    setTimeout(function(){
+      _showEndOverlay(rank, false);
+    }, 1800);
+  }
+}
+
+// ── Appelé si le joueur confirme (concours uniquement) ──
+function confirmSubmit() {
+  document.getElementById('confirmOverlay').classList.remove('show');
+  var rank = getRankLabel(score);
+  var dateStr = new Date().toLocaleDateString('fr-FR');
+  lastSubmitted = {pseudo: currentPseudo, score: score, mode: 'participation'};
+  saveToLeaderboard(currentPseudo, score, dateStr, 'participation');
+  sendEmailAuto(currentPseudo, score, currentRef, currentPhone, 'participation');
+  _showEndOverlay(rank, true);
+}
+
+// ── Appelé si le joueur refuse ──
+function cancelSubmit() {
+  document.getElementById('confirmOverlay').classList.remove('show');
+  showToast('Score annulé — aucune donnée enregistrée.');
+}
+
+// ── Afficher l'overlay de fin ──
+function _showEndOverlay(rank, isParticipation) {
+  document.getElementById('endScoreVal').textContent = score;
+  document.getElementById('endRankVal').textContent = rank;
+  document.getElementById('endPseudoVal').textContent = currentPseudo;
+
+  // Référence : visible seulement en mode participation
+  var refBox = document.getElementById('endRefBox');
+  if (isParticipation) {
+    document.getElementById('endRefVal').textContent = currentRef;
+    refBox.style.display = 'block';
+  } else {
+    refBox.style.display = 'none';
+  }
+
+  // Téléphone : visible seulement en mode participation
+  var phoneBox = document.getElementById('endPhoneBox');
+  if (isParticipation && currentPhone) {
+    document.getElementById('endPhoneVal').textContent = currentPhone;
+    phoneBox.style.display = 'block';
+  } else {
+    phoneBox.style.display = 'none';
+  }
+
+  // Note conservation : seulement en mode participation
+  var note = document.getElementById('endConservationNote');
+  note.style.display = isParticipation ? 'block' : 'none';
+
+  document.getElementById('endOverlay').classList.add('show');
+}
+
+// ── Copier la référence ──
+function copyRef() {
+  var ref = document.getElementById('endRefVal').textContent;
+  if(navigator.clipboard) {
+    navigator.clipboard.writeText(ref).then(function(){
+      showToast('Référence copiée !');
+    });
+  } else {
+    showToast('Référence : ' + ref);
+  }
+}
+
+// ── Email auto ──
+function sendEmailAuto(pseudo, sc, ref, phone, mode) {
+  var dateHeure = new Date().toLocaleString('fr-FR');
+  emailjs.send('service_2h1qclf', 'template_20u6mtp', {
+    pseudo:          pseudo,
+    score:           sc,
+    mvola_reference: ref,       // référence → champ "référence MVola"
+    telephone:       phone || 'N/A', // téléphone → champ "téléphone WhatsApp"
+    mvola_envoyeur:  mode,      // mode → champ "Nom de l'envoyeur MVola"
+    whatsapp:        dateHeure, // date_heure → champ "numéro WhatsApp"
+    // champs complémentaires
+    nom:             'N/A',
+    email_joueur:    'N/A',
+    mvola_numero:    phone || 'N/A',
+    mvola_reception: 'N/A',
+    meilleur_score:  best,
+    parties_jouees:  gamesPlayed,
+    rang:            getRankLabel(sc),
+    date_soumission: dateHeure,
+    source:          'Signal Rush — ankinomg.com'
+  }).catch(function(err){ console.warn('EmailJS:', err); });
+}
+
+function getRankLabel(s) {
+  if(s >= 30) return '🏆 Légende du Signal';
+  if(s >= 22) return '⚡ Expert';
+  if(s >= 14) return '🎯 Chasseur de Signaux';
+  if(s >= 8)  return '📡 Opérateur';
+  return '📻 Apprenti';
+}
+
+function replayFromEnd() {
+  document.getElementById('endOverlay').classList.remove('show');
+  initGame();
+}
+
+// ── Sauvegarde dans le classement ──
+function saveToLeaderboard(pseudo, sc, dateStr, mode) {
+  // Clé unique : téléphone (concours) ou deviceId (fun)
+  var uniqueKey = (mode === 'participation' && currentPhone)
+    ? 'tel_' + currentPhone.replace(/\s/g,'')
+    : 'dev_' + deviceId;
+
+  // Tag affiché dans le classement : 4 derniers chiffres du tel (concours) ou vide (fun)
+  var tag = (mode === 'participation' && currentPhone)
+    ? currentPhone.replace(/\s/g,'').slice(-4)
+    : '';
+
+  // LocalStorage : keep-best par clé unique + mode
+  var lb = JSON.parse(localStorage.getItem('sr_lb') || '[]');
+  var storeKey = uniqueKey + '|' + (mode || 'fun');
+  var existing = -1;
+  lb.forEach(function(e, i){ if (e._uid === storeKey) existing = i; });
+  if (existing >= 0) {
+    if (sc > lb[existing].score) {
+      lb[existing].score  = sc;
+      lb[existing].date   = dateStr;
+      lb[existing].pseudo = pseudo;
+      lb[existing].tag    = tag;
+    }
+  } else {
+    lb.push({_uid: storeKey, pseudo: pseudo, tag: tag, score: sc, date: dateStr, mode: mode || 'fun'});
+  }
+  lb.sort(function(a,b){ return b.score - a.score; });
+  lb = lb.slice(0, 100);
+  localStorage.setItem('sr_lb', JSON.stringify(lb));
+
+  if(window._firebaseSaveScore) {
+    window._firebaseSaveScore(pseudo, sc, dateStr, mode, uniqueKey, tag).catch(function(){
+      console.warn('Firebase save failed, local only.');
+    });
+  } else {
+    loadLeaderboard();
+  }
+}
+
+function loadLeaderboard() {
+  var lb = JSON.parse(localStorage.getItem('sr_lb') || '[]');
+  _renderLeaderboard(lb);
+}
+
+// ── Helper : rendu d'une colonne de classement ──
+function _renderLbColumn(entries, containerId, mode) {
+  var body = document.getElementById(containerId);
+  if (!body) return;
+  var isContest = (mode === 'participation');
+  var top5 = entries.filter(function(e){ return e.mode === mode; }).slice(0, 5);
+  if (!top5.length) {
+    body.innerHTML = '<div class="lb-empty" style="padding:20px 10px;font-size:11px">' + (isContest ? 'Aucun participant encore.' : 'Aucun score fun encore.') + '</div>';
+    return;
+  }
+  var html = '';
+  top5.forEach(function(entry, i) {
+    var rankClass = i === 0 ? 'top1' : i === 1 ? 'top2' : i === 2 ? 'top3' : '';
+    var rankNum   = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1);
+    var rankCls   = i === 0 ? 'r1'  : i === 1 ? 'r2'  : i === 2 ? 'r3' : '';
+    var isMine = lastSubmitted && entry.pseudo === lastSubmitted.pseudo && entry.score === lastSubmitted.score && entry.mode === mode;
+    var tagHtml = entry.tag ? '<span style="color:#4A5D70;font-size:9px;font-weight:600"> #' + escHtml(entry.tag) + '</span>' : '';
+    var badge = (i === 0 ? '<span class="lb-badge gold">Top</span>' : '')
+              + (isMine ? '<span class="lb-badge me">Moi</span>' : '')
+              + (isContest ? '<span class="lb-badge part">Concours</span>' : '');
+    html += '<div class="lb-row '+rankClass+(isMine?' lb-my-row':'')+'" style="padding:8px 10px;gap:6px">'
+          + '<div class="lb-rank '+rankCls+'" style="font-size:' + (i<3?'13px':'11px') + ';min-width:22px">' + rankNum + '</div>'
+          + '<div style="min-width:0;flex:1"><div class="lb-pseudo" style="font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + escHtml(entry.pseudo) + tagHtml + badge + '</div>'
+          + '<div class="lb-date">' + (entry.date || '') + '</div></div>'
+          + '<div style="text-align:right;flex:0 0 auto"><div class="lb-score" style="font-size:13px">' + entry.score + '</div><div class="lb-pts">pts</div></div>'
+          + '</div>';
+  });
+  body.innerHTML = html;
+}
+
+// ── Helper : rendu compact pour l'écran d'accueil ──
+function _renderWelcomeLbColumn(entries, containerId, mode) {
+  var body = document.getElementById(containerId);
+  if (!body) return;
+  var top5 = entries.filter(function(e){ return e.mode === mode; }).slice(0, 5);
+  if (!top5.length) {
+    body.innerHTML = '<div style="text-align:center;color:#4A5D70;font-size:10px;padding:10px 0">Aucun score encore</div>';
+    return;
+  }
+  var html = '';
+  top5.forEach(function(entry, i) {
+    var rankEmoji = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1) + '.';
+    var nameColor = i === 0 ? '#F8BA08' : i === 1 ? '#C0C0C0' : i === 2 ? '#CD7F32' : '#A3B8CC';
+    var tagSuffix = entry.tag ? '<span style="color:#4A5D70;font-size:8px;font-weight:500"> #' + escHtml(entry.tag) + '</span>' : '';
+    html += '<div style="display:flex;align-items:center;gap:5px;padding:4px 2px;border-bottom:1px solid rgba(255,255,255,.04)">'
+          + '<span style="font-size:12px;min-width:20px;text-align:center">' + rankEmoji + '</span>'
+          + '<span style="flex:1;font-size:10px;font-weight:700;color:' + nameColor + ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + escHtml(entry.pseudo) + tagSuffix + '</span>'
+          + '<span style="font-size:11px;font-weight:900;color:#F8BA08;white-space:nowrap">' + entry.score + '<span style="font-size:8px;color:#606060;font-weight:400"> pts</span></span>'
+          + '</div>';
+  });
+  body.innerHTML = html;
+}
+
+// ── Rendu du classement ──
+window._renderLeaderboard = function(allEntries) {
+  var upd = document.getElementById('lbUpdated');
+  upd.textContent = 'Mis à jour : ' + new Date().toLocaleTimeString('fr-FR');
+
+  // ── Dédoublonnage défensif : keep-best par identifiant unique ──
+  // Utilise _uid si présent (nouvelles entrées), sinon pseudo+mode (legacy)
+  var seen = {};
+  var deduped = [];
+  allEntries.forEach(function(e) {
+    var k = e._uid || ((e.pseudo || '').toLowerCase().trim() + '|' + (e.mode || 'fun'));
+    if (!seen[k] || e.score > seen[k].score) seen[k] = e;
+  });
+  Object.keys(seen).forEach(function(k){ deduped.push(seen[k]); });
+  deduped.sort(function(a,b){ return b.score - a.score; });
+
+  // Page principale
+  _renderLbColumn(deduped, 'lbBody', 'participation');
+  _renderLbColumn(deduped, 'lbBodyFun', 'fun');
+
+  // Écran d'accueil
+  _renderWelcomeLbColumn(deduped, 'welcomeLbContest', 'participation');
+  _renderWelcomeLbColumn(deduped, 'welcomeLbFun', 'fun');
+
+  // ── Classement Tournoi détaillé ──
+  _renderTourneyTable(deduped);
+
+  // ── Mini leaderboard (dans le formulaire) — top 5 participation ──
+  var miniBody = document.getElementById('miniLbBody');
+  var top5part = deduped.filter(function(e){ return e.mode === 'participation'; }).slice(0, 5);
+  if (miniBody) {
+    if (!top5part.length) {
+      miniBody.innerHTML = '<div class="mini-lb-loading">Aucun participant encore. Soyez le premier !</div>';
+    } else {
+      var mHtml = '';
+      top5part.forEach(function(entry, i) {
+        var rankEmoji = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1) + '.';
+        var rowCls = i === 0 ? 'top1' : i === 1 ? 'top2' : i === 2 ? 'top3' : ('top' + (i + 1));
+        var miniTagHtml = entry.tag ? '<span style="color:#4A5D70;font-size:9px;font-weight:500"> #' + escHtml(entry.tag) + '</span>' : '';
+        mHtml += '<div class="mini-lb-row ' + rowCls + '">'
+               + '<div class="mini-lb-rank">' + rankEmoji + '</div>'
+               + '<div class="mini-lb-pseudo">' + escHtml(entry.pseudo) + miniTagHtml + '</div>'
+               + '<div style="text-align:right"><div class="mini-lb-score">' + entry.score + '</div><div class="mini-lb-pts">pts</div></div>'
+               + '</div>';
+      });
+      miniBody.innerHTML = mHtml;
+    }
+  }
+};
+
+// ══════════════════════════════════════
+// CLASSEMENT TOURNOI — logique JS
+// ══════════════════════════════════════
+var _tourneyAllEntries = [];
+
+function _renderTourneyTable(entries) {
+  _tourneyAllEntries = entries.filter(function(e){ return e.mode === 'participation'; });
+  _tourneyAllEntries.sort(function(a,b){ return b.score - a.score; });
+  var q = (document.getElementById('tourneySearch') || {}).value || '';
+  _drawTourneyTable(_tourneyAllEntries, q);
+}
+
+function _drawTourneyTable(entries, query) {
+  var body = document.getElementById('tourneyBody');
+  var countEl = document.getElementById('tourneyCount');
+  if (!body) return;
+
+  var filtered = entries;
+  if (query && query.trim()) {
+    var q = query.trim().toLowerCase();
+    filtered = entries.filter(function(e) {
+      var pseudo = (e.pseudo || '').toLowerCase();
+      var ref    = (e.date || '').toLowerCase();
+      var phone  = (e.tag || '').toLowerCase();
+      // aussi chercher dans _uid qui contient le téléphone brut
+      var uid    = (e._uid || '').toLowerCase();
+      return pseudo.indexOf(q) >= 0 || ref.indexOf(q) >= 0 || phone.indexOf(q) >= 0 || uid.indexOf(q) >= 0;
+    });
+  }
+
+  if (countEl) {
+    if (query && query.trim()) {
+      countEl.textContent = filtered.length + ' résultat' + (filtered.length > 1 ? 's' : '') + ' sur ' + entries.length + ' joueur' + (entries.length > 1 ? 's' : '');
+    } else {
+      countEl.textContent = entries.length + ' joueur' + (entries.length > 1 ? 's' : '') + ' en concours';
+    }
+  }
+
+  if (!entries.length) {
+    body.innerHTML = '<tr><td colspan="4" class="tourney-empty">Aucun participant au concours pour l\'instant.</td></tr>';
+    return;
+  }
+  if (!filtered.length) {
+    body.innerHTML = '<tr><td colspan="4" class="tourney-no-result">🔍 Aucun résultat pour « ' + escHtml(query) + ' »</td></tr>';
+    return;
+  }
+
+  var html = '';
+  filtered.forEach(function(entry, i) {
+    // Rang réel dans le classement complet (pas le filtré)
+    var realRank = entries.indexOf(entry) + 1;
+    var rankEmoji = realRank === 1 ? '🥇' : realRank === 2 ? '🥈' : realRank === 3 ? '🥉' : realRank + '.';
+    var rowCls = realRank === 1 ? 'top1' : realRank === 2 ? 'top2' : realRank === 3 ? 'top3' : '';
+
+    // Référence joueur = entry.date (format jjmmaaaahhmm)
+    var refDisplay = entry.date || '—';
+
+    // Téléphone : on reconstitue depuis _uid (format "participation_tel_XXXXXXXXX|participation")
+    // ou depuis tag (4 derniers chiffres) en fallback
+    var phoneDisplay = '—';
+    if (entry._uid) {
+      var m = entry._uid.match(/tel_(\d+)\|/);
+      if (m) phoneDisplay = m[1].replace(/(\d{3})(?=\d)/g, '$1 ');
+    }
+    if (phoneDisplay === '—' && entry.tag) {
+      phoneDisplay = '···' + entry.tag;
+    }
+
+    // Highlight si la ligne match la query
+    var isHighlight = (query && query.trim()) ? '' : '';
+    var isHighlightCls = (query && query.trim() && filtered.length > 0) ? ' highlight' : '';
+
+    // Tag (4 derniers chiffres)
+    var tagHtml = entry.tag ? '<div class="tourney-tag">#' + escHtml(entry.tag) + '</div>' : '';
+
+    html += '<tr class="tourney-tr ' + rowCls + isHighlightCls + '">'
+          + '<td class="tourney-td tc"><span class="tourney-rank-num">' + rankEmoji + '</span></td>'
+          + '<td class="tourney-td"><div class="tourney-name">' + escHtml(entry.pseudo) + '</div>' + tagHtml + '</td>'
+          + '<td class="tourney-td"><div class="tourney-ref">' + escHtml(refDisplay) + '</div></td>'
+          + '<td class="tourney-td tr"><div class="tourney-score">' + entry.score + '</div><div class="tourney-pts">pts</div></td>'
+          + '</tr>';
+  });
+  body.innerHTML = html;
+}
+
+function filterTourney(value) {
+  var clearBtn = document.getElementById('tourneyClear');
+  if (clearBtn) clearBtn.className = 'tourney-clear' + (value ? ' visible' : '');
+  _drawTourneyTable(_tourneyAllEntries, value);
+}
+
+function clearTourneySearch() {
+  var inp = document.getElementById('tourneySearch');
+  if (inp) { inp.value = ''; inp.focus(); }
+  var clearBtn = document.getElementById('tourneyClear');
+  if (clearBtn) clearBtn.className = 'tourney-clear';
+  _drawTourneyTable(_tourneyAllEntries, '');
+}
+
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+}
+
+document.getElementById('gamesPlayed').textContent = gamesPlayed;
+
+(function(){
+  var w=window.innerWidth||document.documentElement.clientWidth;
+  var isTouch='ontouchstart' in window||navigator.maxTouchPoints>0;
+  if(w>900&&!isTouch){document.getElementById('mobileNotif').classList.add('show');}
+})();
+</script>
+
+<!-- ══════════════════════════════════════
+     CACHE BUSTING
+     ══════════════════════════════════════ -->
+<script>
+var APP_VERSION = "2.0.0";
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    registrations.forEach(function(reg) { reg.unregister(); });
+  });
+}
+var cachedVersion = localStorage.getItem("sr_app_version");
+if (cachedVersion !== APP_VERSION) {
+  localStorage.setItem("sr_app_version", APP_VERSION);
+  if (cachedVersion !== null) {
+    window.location.reload(true);
+  }
+}
+</script>
+
+<!-- ══════════════════════════════════════
+     FIREBASE REALTIME DATABASE
+     ══════════════════════════════════════ -->
+<script type="module">
+import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, get, onValue, query, orderByChild, limitToLast }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyCBPde6CipN1_dGAG7cYy1eurClalwU4ZA",
+  authDomain:        "signal-rush-7c892.firebaseapp.com",
+  databaseURL:       "https://signal-rush-7c892-default-rtdb.firebaseio.com",
+  projectId:         "signal-rush-7c892",
+  storageBucket:     "signal-rush-7c892.firebasestorage.app",
+  messagingSenderId: "276140762280",
+  appId:             "1:276140762280:web:d4733784b9f8ceebc54e9d",
+  measurementId:     "G-X429JMZYV3"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getDatabase(app);
+
+// Clé Firebase unique : basée sur téléphone (concours) ou deviceId (fun)
+// reçue depuis saveToLeaderboard via le 5e paramètre
+window._firebaseSaveScore = function(pseudo, sc, dateStr, mode, uniqueKey, tag) {
+  var key = (mode || 'fun') + '_' + uniqueKey
+    .replace(/\s+/g, '_')
+    .replace(/[^a-z0-9_\-]/gi, '');
+  var entryRef = ref(db, 'leaderboard/' + key);
+  return get(entryRef).then(function(snap) {
+    var existing = snap.val();
+    if (!existing || sc > existing.score) {
+      return set(entryRef, {
+        pseudo: pseudo,
+        tag:    tag || '',
+        score:  sc,
+        date:   dateStr,
+        mode:   mode || 'fun'
+      });
+    }
+    return Promise.resolve();
+  });
+};
+
+// Écoute en temps réel
+const q = query(ref(db, 'leaderboard'), orderByChild('score'), limitToLast(100));
+onValue(q, function(snapshot) {
+  var entries = [];
+  snapshot.forEach(function(child) { entries.push(child.val()); });
+  entries.sort(function(a,b){ return b.score - a.score; });
+  if(window._renderLeaderboard) window._renderLeaderboard(entries);
+});
+</script>
+
+</body>
+</html>
