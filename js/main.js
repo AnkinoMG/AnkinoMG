@@ -1,0 +1,677 @@
+
+/* ====== Copy Email ====== */
+function copyEmail(btn){
+  navigator.clipboard.writeText('contact@ankinomg.com').then(function(){
+    var orig=btn.innerHTML;
+    btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>';
+    btn.style.color='#25D366';
+    setTimeout(function(){btn.innerHTML=orig;btn.style.color='';},2000);
+  });
+}
+
+/* ====== i18n ====== */
+var I18N={
+fr:{
+  nav_home:'Accueil',nav_services:'Services',nav_portfolio:'Réalisations',nav_process:'Méthode',nav_about:'À propos',nav_contact:'Contact',nav_cta:'Contactez-nous',
+  hero_loc:'Basé à Antsirabe, Madagascar',hero_h1a:'Créez votre',hero_h1b:'identité',hero_h1c:'digitale avec',hero_p:'Équipe spécialisée dans la communication digitale et la création visuelle. Nous transformons vos idées en expériences mémorables.',hero_cta1:'Démarrer un projet',hero_cta2:'Nos Services',
+  svc_tag:'Nos Services',svc_h2a:'Ce que nous',svc_h2b:'faisons',svc_desc:'Des solutions sur mesure pour chaque besoin.',
+  port_tag:'Nos Réalisations',port_h2a:'Des projets qui',port_h2b:'inspirent',port_desc:'Découvrez une sélection de nos réalisations les plus marquantes.',
+  proc_tag:'Notre Méthode',proc_h2a:'Un processus',proc_h2b:'éprouvé',proc_s1t:'Découverte',proc_s1p:'Nous analysons vos besoins et objectifs pour comprendre votre vision.',proc_s2t:'Stratégie',proc_s2p:"Nous élaborons un plan d'action personnalisé pour atteindre vos objectifs.",proc_s3t:'Création',proc_s3p:'Notre équipe donne vie à votre projet avec créativité et excellence.',proc_s4t:'Résultats',proc_s4p:"Suivi des performances et optimisations continues pour maximiser l'impact.",
+  tst_tag:'Témoignages',tst_h2a:'Ils nous font confiance',tst_h2b:'',
+  abt_tag:'À Propos',abt_h2a:"L'Excellence au service de",abt_h2b:'votre vision',abt_desc:"Ankino MG est une équipe passionnée dont le siège est basé à Antsirabe, Madagascar. Nous croyons que chaque entreprise a une histoire unique. Notre mission : la transformer en une identité visuelle forte et une présence digitale impactante, pour les marques malgaches et internationales.",abt_stat1:'Lancement',abt_stat2:'Projets Livrés',abt_stat3:'Collaborations BtoB | BtoC',abt_stat4:'Satisfaction Client',abt_v1t:'Centrée Client BtoB / BtoC',abt_v1p:'Solutions personnalisées adaptées aux entreprises comme aux particuliers.',abt_v2t:'Qualité Garantie',abt_v2p:'Rigueur et excellence dans chaque livrable.',abt_v3t:'Collaboration Durable',abt_v3p:'Relations de confiance bâties à long terme.',abt_v4t:'Innovation Continue',abt_v4p:'Dernières tendances du design digital.',
+  ct_tag:'Contact',ct_h2a:'Prêt à',ct_h2b:'décoller ?',ct_c1t:'Réponse rapide ?',ct_c1p:'Appelez-nous directement pour discuter.',ct_c2t:'WhatsApp',ct_c2p:'Discutez avec nous en temps réel.',ct_c3t:'Email',ct_c3p:'Envoyez-nous votre demande détaillée.',
+  form_name:'Nom Complet',form_name_ph:'Votre nom',form_email:'Email',form_service:'Service Souhaité',form_service_ph:'Sélectionnez un service',form_subject:'Sujet',form_subject_ph:'Sujet de votre demande',form_msg:'Message',form_msg_ph:'Décrivez votre projet...',form_submit:'Envoyer par email',form_alert:'Veuillez remplir tous les champs.',form_greet:'Bonjour Ankino MG,',form_lbl_name:'Nom :',form_lbl_email:'Email :',form_lbl_svc:'Service souhaité :',form_sign:'Cordialement,',
+  svc1:'Design Graphique',svc2:'Community Management',svc3:'Meta Ads et Google Ads',svc4:'Montage Vidéo',svc5:'Voix Off',svc8:'Email Marketing',svc7:'Création de Site Web',
+  ft_desc:"Bien plus qu'un partenariat, un engagement à vos côtés.",ft_nav:'Navigation',ft_svc:'Services',ft_terms:'Termes & FAQ',ft_copy:'© 2026 Ankino MG. Tous droits réservés.',ft_addr:'Designed for Excellence - Antsirabe 110, Madagascar',wa_txt:'Discuter sur WhatsApp',
+  mob_lang:'Langue',
+  form_sending:'Envoi en cours...',
+  success_title:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2.5" style="vertical-align:middle;margin-right:6px"><polyline points="20 6 9 17 4 12"/></svg> Message bien envoyé !',
+  success_msg:'Merci de nous avoir contactés.<br>Nous vous répondrons dans <strong>moins de 24h</strong>.',
+  trust:'clients satisfaits',
+  svc1_desc:"Nous concevons des identités visuelles fortes et cohérentes qui reflètent l'âme de votre marque. Chaque création est pensée pour capter l'attention, inspirer confiance et laisser une impression durable auprès de votre audience, à Madagascar comme à l'international.",
+  svc1_f1:'Identité visuelle',svc1_f2:'Logo & Charte graphique',svc1_f3:'Supports print',svc1_f4:'Packaging',
+  svc2_desc:"Nous gérons et animons vos réseaux sociaux avec une stratégie éditoriale adaptée à votre secteur et à votre cible. Contenus engageants, planning régulier et suivi des performances pour faire grandir votre communauté et renforcer votre notoriété en ligne.",
+  svc2_f1:'Stratégie social media',svc2_f2:'Création de contenu',svc2_f3:'Calendrier éditorial',svc2_f4:'Reporting mensuel',
+  svc3_desc:"Nous créons et pilotons des campagnes publicitaires Meta Ads et Google Ads ciblées pour toucher les bonnes personnes au bon moment. Chaque budget est optimisé pour maximiser votre retour sur investissement et générer des résultats concrets pour votre activité.",
+  svc3_f1:'Meta Ads',svc3_f2:'Google Ads',svc3_f3:'Ciblage précis',svc3_f4:'Optimisation ROI',
+  svc4_desc:"Nous produisons des contenus vidéo professionnels adaptés à tous vos supports de communication. Des Reels percutants pour les réseaux sociaux aux vidéos institutionnelles soignées, chaque montage est réalisé pour raconter votre histoire de façon claire et captivante.",
+  svc4_f1:'Montage vidéo',svc4_f2:'Animation',svc4_f3:'Motion design',svc4_f4:'Reels & Shorts',
+  svc5_desc:"Nous mettons à votre disposition des voix professionnelles chaleureuses et expressives pour sublimer vos projets audiovisuels. Publicités, narrations, podcasts ou présentations : une voix de qualité renforce immédiatement la crédibilité de votre message.",
+  svc5_f1:'Voix off pro',svc5_f2:'Narration',svc5_f3:'Publicité audio',svc5_f4:'Podcast',
+  svc8_desc:"Nous concevons et déployons des campagnes d'emailing professionnelles et ciblées pour fidéliser vos clients et générer des conversions. Des newsletters percutantes aux séquences automatisées, chaque email est pensé pour délivrer le bon message à la bonne personne au bon moment.",
+  svc8_f1:'Campagnes emailing',svc8_f2:'Newsletter',svc8_f3:'Automatisation',svc8_f4:'Suivi & Reporting',
+  svc7_desc:"Nous concevons des sites web modernes, rapides et optimisés pour convertir vos visiteurs en clients. Chaque projet est pensé sur mesure : design soigné, expérience utilisateur fluide et compatibilité parfaite sur mobile. Du site vitrine à la landing page, nous créons des expériences digitales qui marquent les esprits et renforcent votre crédibilité en ligne.",
+  svc7_f1:'Site vitrine professionnel',svc7_f2:'Landing page haute conversion',svc7_f3:'Design responsive & mobile-first',svc7_f4:'Référencement SEO & Performance',
+  svc7_cta:'Demander un devis',
+  port_all:'Tout',
+  pc1:'Identité Visuelle',pc2:'Social Media',pc3:'Campagnes Ads',pc4:'Motion Design',pc5:'Charte Graphique',pc6:'Contenu Digital',pc7:'Stratégie Mobile',pc8:'Voix Off Pro',
+  trust:'clients satisfaits',
+  scroll_lbl:'Défiler',
+  md_pub:'Pub',md_video:'Vidéo',md_social:'Social',md_design:'Design',md_voice:'Voix Off',md_email:'Email',md_web:'Site Web',
+  svc_search_ph:'Rechercher un service ou une tâche...',
+  svc_detail_open:'Voir les prestations',svc_detail_close:'Masquer',
+  svc_tasks_header:'Toutes nos prestations Design Graphique',
+  svc_no_result:'Aucun résultat pour',
+  nav_conseils:'Nos Conseils',nav_actualites:'Actualités'
+},
+en:{
+  nav_home:'Home',nav_services:'Services',nav_portfolio:'Portfolio',nav_process:'Process',nav_about:'About',nav_contact:'Contact',nav_cta:'Contact Us',
+  hero_loc:'Based in Antsirabe, Madagascar',hero_h1a:'Build your',hero_h1b:'digital identity',hero_h1c:'with',hero_p:'A team specialised in digital communication and visual creation. We turn your ideas into memorable experiences.',hero_cta1:'Start a project',hero_cta2:'Our Services',
+  svc_tag:'Our Services',svc_h2a:'What we',svc_h2b:'do',svc_desc:'Tailored solutions for every need.',
+  port_tag:'Our Work',port_h2a:'Projects that',port_h2b:'inspire',port_desc:'Explore a selection of our most notable achievements.',
+  proc_tag:'Our Method',proc_h2a:'A proven',proc_h2b:'process',proc_s1t:'Discovery',proc_s1p:'We analyse your needs and goals to fully understand your vision.',proc_s2t:'Strategy',proc_s2p:'We build a personalised action plan to achieve your objectives.',proc_s3t:'Creation',proc_s3p:'Our team brings your project to life with creativity and excellence.',proc_s4t:'Results',proc_s4p:'Performance tracking and continuous optimisation to maximise impact.',
+  tst_tag:'Testimonials',tst_h2a:'They trust us',tst_h2b:'',
+  abt_tag:'About',abt_h2a:'Excellence at the service of',abt_h2b:'your vision',abt_desc:'Ankino MG is a passionate team headquartered in Antsirabe, Madagascar. We believe every business has a unique story. Our mission is to transform it into a strong visual identity and impactful digital presence, for Malagasy and international brands alike.',abt_stat1:'Founded',abt_stat2:'Projects Delivered',abt_stat3:'BtoB / BtoC Collaborations',abt_stat4:'Client Satisfaction',abt_v1t:'Client-Focused BtoB / BtoC',abt_v1p:'Personalised solutions for businesses and individuals alike.',abt_v2t:'Guaranteed Quality',abt_v2p:'Rigour and excellence in every deliverable.',abt_v3t:'Lasting Collaboration',abt_v3p:'Long-term relationships built on trust.',abt_v4t:'Continuous Innovation',abt_v4p:'Always up to date with the latest digital design trends.',
+  ct_tag:'Contact',ct_h2a:'Ready to',ct_h2b:'take off?',ct_c1t:'Prefer written exchanges?',ct_c1p:'To avoid any misunderstanding, we recommend contacting us in writing, by WhatsApp or email.',ct_c2t:'WhatsApp',ct_c2p:'Send us a written message to discuss your project clearly and avoid any misunderstanding.',ct_c3t:'Email',ct_c3p:'Write to us with all the details of your project for a clear and precise exchange.',
+  form_name:'Full Name',form_name_ph:'Your name',form_email:'Email',form_service:'Desired Service',form_service_ph:'Select a service',form_subject:'Subject',form_subject_ph:'Subject of your request',form_msg:'Message',form_msg_ph:'Describe your project...',form_submit:'Send by email',form_alert:'Please fill in all fields.',form_greet:'Hello Ankino MG,',form_lbl_name:'Name:',form_lbl_email:'Email:',form_lbl_svc:'Desired service:',form_sign:'Best regards,',
+  svc1:'Graphic Design',svc2:'Community Management',svc3:'Meta Ads & Google Ads',svc4:'Video Editing',svc5:'Voice Over',svc8:'Email Marketing',svc7:'Website Creation',
+  ft_desc:'More than a partnership, a commitment by your side.',ft_nav:'Navigation',ft_svc:'Services',ft_terms:'Terms & FAQ',ft_copy:'© 2026 Ankino MG. All rights reserved.',ft_addr:'Designed for Excellence - Antsirabe 110, Madagascar',wa_txt:'Chat on WhatsApp',
+  mob_lang:'Language',
+  form_sending:'Sending...',
+  success_title:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2.5" style="vertical-align:middle;margin-right:6px"><polyline points="20 6 9 17 4 12"/></svg> Message sent!',
+  success_msg:'Thank you for reaching out.<br>We will reply within <strong>24 hours</strong>.',
+  trust:'satisfied clients',
+  svc1_desc:'We design strong, coherent visual identities that reflect the soul of your brand. Every creation is crafted to capture attention, inspire trust and leave a lasting impression on your audience, in Madagascar and beyond.',
+  svc1_f1:'Visual identity',svc1_f2:'Logo & Brand guidelines',svc1_f3:'Print materials',svc1_f4:'Packaging',
+  svc2_desc:'We manage and animate your social media with an editorial strategy tailored to your sector and target audience. Engaging content, consistent scheduling and performance tracking to grow your community and boost your online presence.',
+  svc2_f1:'Social media strategy',svc2_f2:'Content creation',svc2_f3:'Editorial calendar',svc2_f4:'Monthly reporting',
+  svc3_desc:'We create and manage targeted Meta Ads and Google Ads campaigns to reach the right people at the right time. Every budget is optimised to maximise your return on investment and deliver concrete results for your business.',
+  svc3_f1:'Meta Ads',svc3_f2:'Google Ads',svc3_f3:'Precise targeting',svc3_f4:'ROI optimisation',
+  svc4_desc:'We produce professional video content adapted to all your communication channels. From impactful Reels for social media to polished institutional videos, every edit is crafted to tell your story clearly and compellingly.',
+  svc4_f1:'Video editing',svc4_f2:'Animation',svc4_f3:'Motion design',svc4_f4:'Reels & Shorts',
+  svc5_desc:'We provide warm, expressive professional voices to elevate your audiovisual projects. Ads, narrations, podcasts or presentations — a quality voice immediately reinforces the credibility of your message.',
+  svc5_f1:'Pro voice over',svc5_f2:'Narration',svc5_f3:'Audio advertising',svc5_f4:'Podcast',
+  svc8_desc:'We design and deploy professional, targeted email campaigns to retain your clients and drive conversions. From impactful newsletters to automated sequences, every email is crafted to deliver the right message to the right person at the right time.',
+  svc8_f1:'Email campaigns',svc8_f2:'Newsletter',svc8_f3:'Automation',svc8_f4:'Tracking & Reporting',
+  svc7_desc:'We design modern, fast websites optimised to convert visitors into clients. Every project is custom-built: refined design, smooth user experience and perfect mobile compatibility. From showcase sites to landing pages, we create digital experiences that make an impact.',
+  svc7_f1:'Professional showcase website',svc7_f2:'High-conversion landing page',svc7_f3:'Responsive & mobile-first design',svc7_f4:'SEO & Performance',
+  svc7_cta:'Request a quote',
+  port_all:'All',
+  pc1:'Visual Identity',pc2:'Social Media',pc3:'Ad Campaigns',pc4:'Motion Design',pc5:'Brand Guidelines',pc6:'Digital Content',pc7:'Mobile Strategy',pc8:'Pro Voice Over',
+  scroll_lbl:'Scroll',
+  md_pub:'Ads',md_video:'Video',md_social:'Social',md_design:'Design',md_voice:'Voice Over',md_email:'Email',md_web:'Website',
+  svc_search_ph:'Search for a service or task...',
+  svc_detail_open:'View services',svc_detail_close:'Hide',
+  svc_tasks_header:'All our Graphic Design services',
+  svc_no_result:'No results for'
+},
+zh:{
+  nav_home:'首页',nav_services:'服务',nav_portfolio:'作品集',nav_process:'流程',nav_about:'关于我们',nav_contact:'联系我们',nav_cta:'立即联系',
+  hero_loc:'总部位于马达加斯加安齐拉贝',hero_h1a:'打造您的',hero_h1b:'数字身份',hero_h1c:'携手',hero_p:'专注于数字传播与视觉创作的团队，将您的创意转化为难忘的体验。',hero_cta1:'启动项目',hero_cta2:'我们的服务',
+  svc_tag:'我们的服务',svc_h2a:'我们',svc_h2b:'擅长什么',svc_desc:'为每种需求量身定制解决方案。',
+  port_tag:'我们的作品',port_h2a:'激励人心的',port_h2b:'项目',port_desc:'探索我们最具代表性的精选作品。',
+  proc_tag:'我们的方法',proc_h2a:'经过验证的',proc_h2b:'工作流程',proc_s1t:'发现',proc_s1p:'我们分析您的需求和目标，深入理解您的愿景。',proc_s2t:'策略',proc_s2p:'我们制定个性化行动计划，助力实现您的目标。',proc_s3t:'创作',proc_s3p:'我们的团队以创造力和卓越品质将您的项目付诸实践。',proc_s4t:'成果',proc_s4p:'持续追踪绩效并优化，以最大化影响力。',
+  tst_tag:'客户评价',tst_h2a:'他们信任我们',tst_h2b:'',
+  abt_tag:'关于我们',abt_h2a:'卓越服务',abt_h2b:'成就您的愿景',abt_desc:'Ankino MG 是一支充满激情的团队，总部位于马达加斯加安齐拉贝。我们相信每个企业都有独特的故事，我们的使命是将其转化为强大的视觉形象和有影响力的数字存在，服务于马达加斯加及国际品牌。',abt_stat1:'创立年份',abt_stat2:'已交付项目',abt_stat3:'BtoB / BtoC 合作',abt_stat4:'客户满意度',abt_v1t:'以客户为中心',abt_v1p:'为企业与个人量身定制解决方案。',abt_v2t:'品质保障',abt_v2p:'每份交付物都追求严谨与卓越。',abt_v3t:'持久合作',abt_v3p:'建立长期互信的合作关系。',abt_v4t:'持续创新',abt_v4p:'紧跟数字设计最新趋势。',
+  ct_tag:'联系我们',ct_h2a:'准备好',ct_h2b:'起航了吗？',ct_c1t:'建议以书面方式联系',ct_c1p:'为避免沟通误解，我们建议您通过 WhatsApp 或电子邮件与我们联系。',ct_c2t:'WhatsApp',ct_c2p:'请发送书面消息，以便我们清晰、准确地讨论您的项目，避免任何误解。',ct_c3t:'电子邮件',ct_c3p:'请将您的项目详情发送给我们，以便进行清晰、准确的交流。',
+  form_name:'姓名',form_name_ph:'您的姓名',form_email:'电子邮件',form_service:'所需服务',form_service_ph:'请选择服务',form_subject:'主题',form_subject_ph:'您的请求主题',form_msg:'留言',form_msg_ph:'描述您的项目...',form_submit:'发送邮件',form_alert:'请填写所有字段。',form_greet:'您好 Ankino MG，',form_lbl_name:'姓名：',form_lbl_email:'邮箱：',form_lbl_svc:'所需服务：',form_sign:'此致，',
+  svc1:'平面设计',svc2:'社区管理',svc3:'Meta广告与Google广告',svc4:'视频剪辑',svc5:'配音',svc8:'电子邮件营销',svc7:'网站开发',
+  ft_desc:'不仅是合作关系，更是对您的承诺。',ft_nav:'导航',ft_svc:'服务',ft_terms:'条款与常见问题',ft_copy:'© 2026 Ankino MG 版权所有。',ft_addr:'追求卓越 - 马达加斯加安齐拉贝 110',wa_txt:'在 WhatsApp 上聊天',
+  mob_lang:'语言',
+  form_sending:'发送中...',
+  success_title:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2.5" style="vertical-align:middle;margin-right:6px"><polyline points="20 6 9 17 4 12"/></svg> 消息已发送！',
+  success_msg:'感谢您的联系。<br>我们将在 <strong>24小时内</strong> 回复您。',
+  trust:'满意客户',
+  svc1_desc:'我们设计有力、统一的视觉形象，展现您品牌的灵魂。每件作品都旨在吸引眼球、赢得信任，并在马达加斯加及国际受众中留下深刻印象。',
+  svc1_f1:'视觉形象',svc1_f2:'Logo与品牌规范',svc1_f3:'印刷品',svc1_f4:'包装设计',
+  svc2_desc:'我们以贴合您行业和目标受众的内容策略，管理并活跃您的社交媒体账号。优质内容、规律更新与绩效追踪，助您壮大社群、提升品牌知名度。',
+  svc2_f1:'社媒策略',svc2_f2:'内容创作',svc2_f3:'内容日历',svc2_f4:'月度报告',
+  svc3_desc:'我们创建并管理精准的 Meta Ads 和 Google Ads 广告活动，在正确的时间触达正确的人群。每一笔预算都经过优化，以最大化投资回报率，为您的业务带来实际成果。',
+  svc3_f1:'Meta广告',svc3_f2:'Google广告',svc3_f3:'精准定向',svc3_f4:'ROI优化',
+  svc4_desc:'我们为您的所有传播渠道制作专业视频内容。从爆款短视频到精品机构宣传片，每一段剪辑都旨在清晰而引人入胜地讲述您的故事。',
+  svc4_f1:'视频剪辑',svc4_f2:'动画',svc4_f3:'动态设计',svc4_f4:'短视频',
+  svc5_desc:'我们提供温暖、富有表现力的专业配音，提升您的影音项目品质。广告、旁白、播客或演示文稿——高质量的声音能立即提升您信息的可信度。',
+  svc5_f1:'专业配音',svc5_f2:'旁白',svc5_f3:'音频广告',svc5_f4:'播客',
+  svc8_desc:'我们为您设计并部署专业的精准邮件营销活动，助力客户留存与转化提升。从引人注目的新闻简报到自动化邮件序列，每封邮件都旨在在正确的时间将正确的信息传递给正确的人。',
+  svc8_f1:'邮件营销活动',svc8_f2:'新闻简报',svc8_f3:'自动化',svc8_f4:'追踪与报告',
+  svc7_desc:'我们设计现代、快速且优化转化的网站。每个项目均量身定制：精致设计、流畅用户体验与完美移动端适配。从展示网站到落地页，我们打造令人印象深刻的数字体验。',
+  svc7_f1:'专业展示网站',svc7_f2:'高转化落地页',svc7_f3:'响应式与移动优先设计',svc7_f4:'SEO与性能优化',
+  svc7_cta:'申请报价',
+  port_all:'全部',
+  pc1:'视觉形象',pc2:'社交媒体',pc3:'广告活动',pc4:'动态设计',pc5:'品牌规范',pc6:'数字内容',pc7:'移动策略',pc8:'专业配音',
+  scroll_lbl:'滚动',
+  md_pub:'广告',md_video:'视频',md_social:'社交',md_design:'设计',md_voice:'配音',md_email:'邮件',md_web:'网站',
+  svc_search_ph:'搜索服务或任务...',
+  svc_detail_open:'查看所有服务',svc_detail_close:'收起',
+  svc_tasks_header:'平面设计全部服务',
+  svc_no_result:'未找到结果'
+}
+};
+
+var FLAGS={fr:'<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" viewBox="0 0 900 600" style="border-radius:2px;vertical-align:middle;display:inline-block"><rect width="300" height="600" fill="#002395"/><rect x="300" width="300" height="600" fill="#fff"/><rect x="600" width="300" height="600" fill="#ED2939"/></svg>',en:'<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" viewBox="0 0 60 30" style="border-radius:2px;vertical-align:middle;display:inline-block"><clipPath id="a"><path d="M0 0v30h60V0z"/></clipPath><clipPath id="b"><path d="M30 15h30v15zv15H0zH0V0zV0h30z"/></clipPath><g clip-path="url(#a)"><path d="M0 0v30h60V0z" fill="#012169"/><path d="M0 0l60 30m0-30L0 30" stroke="#fff" stroke-width="6"/><path d="M0 0l60 30m0-30L0 30" clip-path="url(#b)" stroke="#C8102E" stroke-width="4"/><path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/><path d="M30 0v30M0 15h60" stroke="#C8102E" stroke-width="6"/></g></svg>',zh:'<svg xmlns="http://www.w3.org/2000/svg" width="20" height="14" viewBox="0 0 30 20" style="border-radius:2px;vertical-align:middle;display:inline-block"><rect width="30" height="20" fill="#DE2910"/><polygon points="5,2 6.18,5.09 9.51,5.09 6.9,7.09 7.84,10.18 5,8.37 2.16,10.18 3.1,7.09 0.49,5.09 3.82,5.09" fill="#FFDE00"/><polygon points="11,1 11.6,2.54 13.27,2.54 11.95,3.5 12.46,5.09 11,4.18 9.54,5.09 10.05,3.5 8.73,2.54 10.4,2.54" fill="#FFDE00"/><polygon points="13.5,3.5 14.1,5.04 15.77,5.04 14.45,6 14.96,7.59 13.5,6.68 12.04,7.59 12.55,6 11.23,5.04 12.9,5.04" fill="#FFDE00"/><polygon points="13.5,7 14.1,8.54 15.77,8.54 14.45,9.5 14.96,11.09 13.5,10.18 12.04,11.09 12.55,9.5 11.23,8.54 12.9,8.54" fill="#FFDE00"/><polygon points="11,9 11.6,10.54 13.27,10.54 11.95,11.5 12.46,13.09 11,12.18 9.54,13.09 10.05,11.5 8.73,10.54 10.4,10.54" fill="#FFDE00"/></svg>'};
+var LABELS={fr:'FR',en:'EN',zh:'ZH'};
+var curLang=localStorage.getItem('anklang')||'fr';
+
+function applyLang(lang){
+  var t=I18N[lang];if(!t)return;
+  document.documentElement.lang=lang==='fr'?'fr':lang==='en'?'en':'zh';
+  document.querySelectorAll('[data-i]').forEach(function(el){
+    var k=el.getAttribute('data-i');if(!t[k])return;
+    if(el.tagName==='INPUT'||el.tagName==='TEXTAREA'){el.placeholder=t[k];return;}
+    if(el.tagName==='OPTION'){el.textContent=t[k];return;}
+    if(el.tagName==='LABEL'){el.innerHTML=t[k]+' <span class="rq">*</span>';return;}
+    if(el.getAttribute('data-i')==='hero_cta1'){el.innerHTML=t[k]+' <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';return;}
+    if(el.getAttribute('data-i')==='svc7_cta'){el.innerHTML=t[k]+' <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';return;}
+    if(el.getAttribute('data-i')==='form_submit'){el.innerHTML=t[k]+' <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>';return;}
+    if(el.getAttribute('data-i')==='ft_copy'){el.innerHTML='&copy; '+t[k].replace('©','').trim();return;}
+    el.textContent=t[k];
+  });
+  document.querySelectorAll('[data-ph]').forEach(function(el){var k=el.getAttribute('data-ph');if(t[k])el.placeholder=t[k];});
+  document.getElementById('langLabel').textContent=LABELS[lang];
+  document.querySelector('#langBtn .lf').innerHTML=FLAGS[lang];
+  document.querySelectorAll('.lang-opt').forEach(function(o){o.classList.toggle('active',o.dataset.lang===lang);});
+  document.querySelectorAll('.mob-lang-opt').forEach(function(o){o.classList.toggle('active',o.dataset.lang===lang);});
+  var mf=document.getElementById('mobLangFlag');if(mf)mf.innerHTML=FLAGS[lang];
+  var ml=document.getElementById('mobLangLabel');if(ml)ml.textContent=t.mob_lang||'Langue';
+  localStorage.setItem('anklang',lang);
+  curLang=lang;
+  // form-success block
+  var sTitle=document.getElementById('fsTitle');if(sTitle&&t.success_title)sTitle.innerHTML=t.success_title;
+  var sMsg=document.getElementById('fsMsg');if(sMsg&&t.success_msg)sMsg.innerHTML=t.success_msg;
+  // footer description (static with phone/email inline)
+  var ftDesc=document.getElementById('ftDesc');if(ftDesc&&t.ft_desc)ftDesc.innerHTML=t.ft_desc+' <span style="color:#fff">034 30 164 52</span> | <span style="color:#fff">contact@ankinomg.com</span>';
+  // Barre de recherche placeholder
+  var si=document.getElementById('svcSearchInput');if(si&&t.svc_search_ph)si.placeholder=t.svc_search_ph;
+  // Bouton "Voir les prestations"
+  var dtBtn=document.getElementById('svcDesignToggle');
+  if(dtBtn){var sp=dtBtn.querySelector('span');if(sp)sp.textContent=dtBtn.classList.contains('open')?(t.svc_detail_close||'Masquer'):(t.svc_detail_open||'Voir les prestations');}
+  // En-tête panneau tâches
+  var th=document.querySelector('.svc-tasks-header span');if(th&&t.svc_tasks_header)th.textContent=t.svc_tasks_header;
+}
+
+document.getElementById('langBtn').addEventListener('click',function(e){e.stopPropagation();var d=document.getElementById('langDrop');var b=document.getElementById('langBtn');d.classList.toggle('open');b.classList.toggle('open');});
+document.querySelectorAll('.lang-opt').forEach(function(o){o.addEventListener('click',function(){applyLang(o.dataset.lang);document.getElementById('langDrop').classList.remove('open');document.getElementById('langBtn').classList.remove('open');});});
+document.querySelectorAll('.mob-lang-opt').forEach(function(o){o.addEventListener('click',function(){applyLang(o.dataset.lang);var drop=document.getElementById('mobLangDrop');var btn=document.getElementById('mobLangBtn');drop.classList.remove('open');btn.classList.remove('open');});});
+// Bouton langue mobile : toggle dropdown
+var mobLangBtn=document.getElementById('mobLangBtn');
+var mobLangDrop=document.getElementById('mobLangDrop');
+if(mobLangBtn){mobLangBtn.addEventListener('click',function(e){e.stopPropagation();mobLangDrop.classList.toggle('open');mobLangBtn.classList.toggle('open');});}
+// Fermer si on clique ailleurs
+document.addEventListener('click',function(){if(mobLangDrop)mobLangDrop.classList.remove('open');if(mobLangBtn)mobLangBtn.classList.remove('open');});
+document.addEventListener('click',function(){document.getElementById('langDrop').classList.remove('open');document.getElementById('langBtn').classList.remove('open');});
+
+applyLang(curLang);
+!function(){var _0x1=['contextmenu','keydown','selectstart','dragstart','copy','cut'];_0x1.forEach(function(e){document.addEventListener(e,function(ev){if(e==='keydown'){var k=ev.keyCode||ev.which;if(ev.ctrlKey&&ev.shiftKey&&(k===73||k===74||k===67)){ev.preventDefault();return false}if(ev.ctrlKey&&(k===85||k===83)){ev.preventDefault();return false}if(k===123){ev.preventDefault();return false}}else{ev.preventDefault();return false}})});var _s=document.createElement('style');_s.textContent='body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}';document.head.appendChild(_s);console.log('%c\u26a0 ANKINO MG - Code Prot\u00e9g\u00e9','color:#F8BA08;font-size:20px;font-weight:900;');console.log('%cCe site est la propri\u00e9t\u00e9 intellectuelle d\'Ankino MG.','color:#FF6F61;font-size:12px;')}();!function(){var _pl=document.getElementById('preloader'),_pf=document.getElementById('preloaderFill'),_pp=0;var _pi=setInterval(function(){_pp+=Math.random()*15+5;if(_pp>=100){_pp=100;_pf.style.width='100%';clearInterval(_pi);setTimeout(function(){_pl.classList.add('done')},400)}else{_pf.style.width=_pp+'%'}},150);setTimeout(function(){if(_pl&&!_pl.classList.contains('done')){_pl.classList.add('done')}},4000)}();!function(){if('ontouchstart'in window)return;var _a=document.getElementById('cur'),_b=-100,_c=-100,_d=-100,_e=-100;document.addEventListener('mousemove',function(e){_b=e.clientX;_c=e.clientY;_a.style.opacity='1'});document.addEventListener('mouseover',function(e){var _f=e.target,_g=false;while(_f&&_f!==document){if(_f.tagName==='A'||_f.tagName==='BUTTON'||_f.tagName==='INPUT'||_f.tagName==='TEXTAREA'||_f.tagName==='SELECT'||(_f.className&&typeof _f.className==='string'&&_f.className.indexOf('int')!==-1)){_g=true;break}_f=_f.parentElement}_a.className=_g?'p':''});document.addEventListener('mousedown',function(){_a.classList.add('click')});document.addEventListener('mouseup',function(){_a.classList.remove('click')});document.addEventListener('mouseleave',function(){_a.style.opacity='0'});document.addEventListener('mouseenter',function(){_a.style.opacity='1'});!function _h(){_d+=(_b-_d)*.13;_e+=(_c-_e)*.13;_a.style.left=_d+'px';_a.style.top=_e+'px';requestAnimationFrame(_h)}()}();!function(){var _i=document.getElementById('nav');window.addEventListener('scroll',function(){_i.classList.toggle('stuck',window.scrollY>50)})}();!function(){var _j=document.getElementById('bur'),_k=document.getElementById('mob'),_l=_j.querySelectorAll('s'),_m=false;_j.addEventListener('click',function(){_m=!_m;_k.classList.toggle('open',_m);_l[0].style.transform=_m?'rotate(45deg) translate(5px,5px)':'';_l[1].style.opacity=_m?'0':'1';_l[2].style.transform=_m?'rotate(-45deg) translate(5px,-5px)':''});document.querySelectorAll('.ml').forEach(function(_n){_n.addEventListener('click',function(){_m=false;_k.classList.remove('open');_l[0].style.transform='';_l[1].style.opacity='1';_l[2].style.transform=''})})}();!function(){document.body.classList.add('js');var _o=new IntersectionObserver(function(_p){_p.forEach(function(_q){if(_q.isIntersecting)_q.target.classList.add('show')})},{threshold:.08,rootMargin:'0px 0px -30px 0px'});document.querySelectorAll('.rv').forEach(function(_r){_o.observe(_r)});setTimeout(function(){document.querySelectorAll('.hero .rv').forEach(function(_r){_r.classList.add('show')})},200)}();!function(){var _s=document.querySelectorAll('.fb'),_t=document.querySelectorAll('.pc');_s.forEach(function(_u){_u.addEventListener('click',function(){_s.forEach(function(_v){_v.classList.remove('on')});_u.classList.add('on');var _w=_u.dataset.f;_t.forEach(function(_x){if(_w==='Tout'||_x.dataset.c===_w){_x.classList.remove('hid');_x.style.opacity='0';_x.style.transform='scale(0.92)';requestAnimationFrame(function(){_x.style.transition='all .35s ease';_x.style.opacity='1';_x.style.transform='scale(1)'})}else{_x.style.opacity='0';_x.style.transform='scale(0.92)';setTimeout(function(){_x.classList.add('hid')},280)}})})})}();!function(){var _P=new IntersectionObserver(function(_Q){_Q.forEach(function(_R){if(!_R.isIntersecting)return;var _S=_R.target;if(!_S.dataset.c){_P.unobserve(_S);return}var _T=parseInt(_S.dataset.c),_FROM=_S.dataset.from?parseInt(_S.dataset.from):0,_U=_T===100||_T===95?'%':(_S.dataset.from?'':'+'),_V=_FROM,_RANGE=_T-_FROM,_W=_RANGE/55;var _X=setInterval(function(){_V+=_W;if(_V>=_T){_S.textContent=_T+_U;clearInterval(_X)}else _S.textContent=Math.floor(_V)+_U},22);_P.unobserve(_S)})},{threshold:.5});document.querySelectorAll('.sta-n').forEach(function(_Y){_P.observe(_Y)})}();!function(){var _Z=document.getElementById('stt');window.addEventListener('scroll',function(){_Z.classList.toggle('vis',window.scrollY>500)})}();!function(){var _0=document.getElementById('contactForm');if(!_0)return;_0.addEventListener('submit',function(_1){_1.preventDefault();var _2=document.getElementById('cfName').value.trim(),_3=document.getElementById('cfEmail').value.trim(),_4=document.getElementById('cfService').value,_5=document.getElementById('cfSubject').value.trim(),_6=document.getElementById('cfMessage').value.trim();var _t=I18N[curLang]||I18N.fr;if(!_2||!_3||!_4||!_5||!_6){alert(_t.form_alert);return}var btn=document.getElementById('cfSubmitBtn');btn.disabled=true;btn.innerHTML=(_t.form_sending||'Envoi en cours...')+' <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>';var ejsData={pseudo:_2,score:_3,mvola_reference:_5+' — '+_4,telephone:_3,mvola_envoyeur:_4,whatsapp:new Date().toLocaleString('fr-FR'),nom:_2,email_joueur:_3,mvola_numero:_3,mvola_reception:_4,meilleur_score:_5,parties_jouees:_6,rang:_5+' — '+_4,date_soumission:new Date().toLocaleString('fr-FR'),source:'Ankino MG — ankinomg.com'};emailjs.send('service_2h1qclf','template_20u6mtp',ejsData).then(function(){_0.style.display='none';var s=document.getElementById('formSuccess');s.classList.add('show');s.scrollIntoView({behavior:'smooth',block:'center'})}).catch(function(error){console.error('EmailJS error:',error);btn.disabled=false;btn.innerHTML='Envoyer par email <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>';alert('Une erreur est survenue. Veuillez réessayer.')})})}();!function(){var _nl=document.querySelectorAll('.nav-lk a:not(.nav-cta)'),_secs=['home','services','portfolio','process','testimonials','about','contact'];window.addEventListener('scroll',function(){var _sy=window.scrollY+120;_nl.forEach(function(_x){_x.classList.remove('active')});for(var _i=_secs.length-1;_i>=0;_i--){var _el=document.getElementById(_secs[_i]);if(_el&&_sy>=_el.offsetTop){var _hr='#'+_secs[_i];_nl.forEach(function(_x){if(_x.getAttribute('href')===_hr)_x.classList.add('active')});break}}})}();!function(){if('ontouchstart'in window)return;document.querySelectorAll('.tilt-card').forEach(function(_c){_c.addEventListener('mousemove',function(_e){var _r=_c.getBoundingClientRect(),_x=(_e.clientX-_r.left)/_r.width,_y=(_e.clientY-_r.top)/_r.height,_rx=(_y-.5)*-12,_ry=(_x-.5)*12;_c.style.transform='perspective(600px) rotateX('+_rx+'deg) rotateY('+_ry+'deg) translateY(-7px)';_c.style.setProperty('--mx',(_x*100)+'%');_c.style.setProperty('--my',(_y*100)+'%')});_c.addEventListener('mouseleave',function(){_c.style.transform='perspective(600px) rotateX(0) rotateY(0) translateY(0)'})})}();!function(){var _tl=document.getElementById('prTimeline');if(!_tl)return;var _ob=new IntersectionObserver(function(_en){_en.forEach(function(_e){if(_e.isIntersecting){_tl.classList.add('filled');_ob.unobserve(_tl)}})},{threshold:.3});_ob.observe(_tl)}();!function(){var _ps=document.querySelectorAll('.ptc');window.addEventListener('scroll',function(){var _sy=window.scrollY;_ps.forEach(function(_p,_i){var _sp=(_i%2===0?1:-1)*.15;_p.style.transform='translateY('+(_sy*_sp)+'px) scale('+(1+Math.sin(_sy*.003+_i)*.3)+')'})},{passive:true})}();!function(){document.querySelectorAll('.rv-left,.rv-right,.rv-scale').forEach(function(_el){new IntersectionObserver(function(_en){_en.forEach(function(_e){if(_e.isIntersecting)_e.target.classList.add('show')})},{threshold:.08}).observe(_el)})}();
+
+/* ===== QUIZ+ MOBILE-ONLY HANDLER ===== */
+function handleQuizPlusClick(e){
+  var isMobile='ontouchstart'in window||navigator.maxTouchPoints>0||window.innerWidth<=1023;
+  if(!isMobile){
+    e.preventDefault();
+    showQuizPlusModal();
+  }
+}
+function closeQuizPlusModal(){
+  var overlay=document.getElementById('quizPlusModal');
+  if(!overlay)return;
+  overlay.style.opacity='0';
+  setTimeout(function(){
+    if(overlay.parentNode)overlay.parentNode.removeChild(overlay);
+    // Scroll back to the last visited section or #home
+    var hash=window.location.hash||'#home';
+    var target=document.querySelector(hash);
+    if(target){target.scrollIntoView({behavior:'smooth'});}
+  },300);
+}
+function showQuizPlusModal(){
+  var existing=document.getElementById('quizPlusModal');
+  if(existing){existing.style.opacity='1';existing.classList.add('show');return;}
+  var overlay=document.createElement('div');
+  overlay.id='quizPlusModal';
+  overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(7,14,26,.88);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .3s ease';
+  overlay.innerHTML='<div style="background:#101E30;border:1px solid rgba(248,186,8,.25);border-radius:28px;padding:36px 28px;max-width:380px;width:100%;text-align:center;position:relative"><button onclick="closeQuizPlusModal()" style="position:absolute;top:16px;right:16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s" onmouseover="this.style.background=\'rgba(255,255,255,.14)\'" onmouseout="this.style.background=\'rgba(255,255,255,.07)\'"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#A3B8CC" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><div style="width:64px;height:64px;background:rgba(248,186,8,.1);border:1px solid rgba(248,186,8,.2);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#F8BA08" stroke-width="1.8"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" x2="12.01" y1="18" y2="18" stroke-width="2.5"/></svg></div><h3 style="font-family:Montserrat,sans-serif;font-size:20px;font-weight:900;color:#fff;margin-bottom:10px">Quiz+ est <span style="color:#F8BA08">mobile only</span></h3><p style="font-family:Montserrat,sans-serif;color:#808080;font-size:13px;line-height:1.7;margin-bottom:22px">Le jeu Signal Rush est conçu exclusivement pour mobile. Scannez le QR code ou ouvrez ce lien sur votre téléphone pour jouer.</p><div style="background:rgba(248,186,8,.06);border:1px dashed rgba(248,186,8,.25);border-radius:16px;padding:16px;margin-bottom:20px"><div style="font-family:Montserrat,sans-serif;color:#F8BA08;font-size:12px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F8BA08" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>ankinomg.com/merite</div><div style="font-family:Montserrat,sans-serif;color:#A3B8CC;font-size:11px">Ouvrez ce lien sur votre smartphone</div></div><button onclick="closeQuizPlusModal()" style="font-family:Montserrat,sans-serif;width:100%;padding:13px;border-radius:14px;background:linear-gradient(135deg,#F8BA08,#FF7F00);color:#0D1B2A;font-weight:900;font-size:12px;text-transform:uppercase;letter-spacing:2px;border:none;cursor:pointer">Compris !</button></div>';
+  document.body.appendChild(overlay);
+  requestAnimationFrame(function(){overlay.style.opacity='1';});
+  overlay.classList.add('show');
+  overlay.addEventListener('click',function(e){if(e.target===overlay)closeQuizPlusModal();});
+}
+
+/* ===== MOTION DESIGN HERO ENGINE ===== */
+!function(){
+  var canvas    = document.getElementById('mdCanvas');
+  if(!canvas) return;
+  var ctx       = canvas.getContext('2d');
+  var container = document.getElementById('mdContainer');
+
+  var palette = ['#F8BA08','#FF7F00','#00BCD4','#FF6F61','#A2D9FF','#9EE6CF','#A777FF'];
+
+  /*
+   * Une seule orbite circulaire.
+   * Rayon = calculé dynamiquement depuis la taille réelle du conteneur,
+   *         le rayon du logo et la demi-largeur d'une carte.
+   * Toutes les icônes tournent dans le même sens (horaire), même vitesse.
+   * Espacement angulaire uniforme → jamais de superposition.
+   *
+   * Formule du rayon :
+   *   logoR   = moitié du diamètre du logo (.c-logo = 120px → 60px)
+   *   cardR   = moitié de la largeur d'une icône (.md-ico = 52px → 26px)
+   *   labelH  = hauteur label + gap (≈18px)
+   *   GAP     = espace libre entre bord logo et bord carte (20px min)
+   *   ORBIT_R = logoR + GAP + cardR
+   *
+   * Côté responsive :
+   *   - conteneur CSS = clamp(280px, 45vw, 460px) avec 460px sur ≥1024px
+   *   - on calcule tout en % du conteneur pour s'adapter automatiquement
+   */
+  var CARD_COUNT   = 7;
+  var ORBIT_SPEED  = 8;     // deg/s — lent, fluide
+
+  var cards = [];
+  for(var i = 0; i < CARD_COUNT; i++){
+    var startAngle = (i / CARD_COUNT) * Math.PI * 2 - Math.PI / 2;
+    cards.push({
+      el:          document.getElementById('mdCard' + i),
+      angle:       startAngle,
+      radius:      0,
+      cardHalf:    0,
+      labelH:      18,   // hauteur label — mis à jour dans resize()
+      color:       palette[i],
+      opacity:     0,
+      scale:       0,
+      // Drag state
+      dragging:    false,
+      dragX:       0,
+      dragY:       0,
+      returning:   false,
+      returnProgress: 0,
+      _returnFromX: undefined,
+      _returnFromY: undefined
+    });
+  }
+
+  var particles   = [];
+  var NUM_PARTICLES = 22;
+
+  function resize(){
+    var W = container.offsetWidth;
+    var H = container.offsetHeight;
+    canvas.width  = W * window.devicePixelRatio;
+    canvas.height = H * window.devicePixelRatio;
+    canvas.style.width  = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+    // Mesure réelle des éléments depuis le DOM
+    var icoEl   = container.querySelector('.md-ico');
+    var icoSize = icoEl ? icoEl.offsetWidth : (W <= 380 ? 40 : 52);
+    var icoHalf = icoSize / 2;
+
+    var lblEl = container.querySelector('.md-lbl');
+    var lblH  = lblEl ? lblEl.offsetHeight : (W <= 380 ? 12 : 14);
+    // labelH = hauteur totale du bloc label (incluant gap entre icône et texte)
+    var labelH = lblH + 6;
+
+    var logoEl   = container.querySelector('.c-logo');
+    var logoDiam = logoEl ? logoEl.offsetWidth : (W <= 380 ? 88 : 120);
+    var logoR    = logoDiam / 2;
+
+    // Orbite — marge entre le bord du logo et le centre de l'icône
+    // Desktop (W > 380) : GAP augmenté pour bien écarter les cartes du logo
+    var GAP = W <= 380 ? 22 : 52;
+    var orbitR = logoR + GAP + icoHalf;
+
+    // Sécurité : l'icône + son label doivent rester dans le conteneur
+    // En haut/bas : on doit laisser de la place pour le label (labelH px)
+    var maxR = W / 2 - icoHalf - labelH - 4;
+    if(orbitR > maxR) orbitR = maxR;
+
+    cards.forEach(function(c){
+      c.radius   = orbitR;
+      c.cardHalf = icoHalf;
+      c.labelH   = labelH;   // hauteur totale label (pour décalage continu)
+    });
+
+    particles = [];
+    for(var j = 0; j < NUM_PARTICLES; j++){
+      particles.push({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - .5) * .28, vy: (Math.random() - .5) * .28,
+        r:  1 + Math.random() * 1.6,
+        color:   palette[Math.floor(Math.random() * palette.length)],
+        opacity: .08 + Math.random() * .15
+      });
+    }
+  }
+
+  // ── DRAG INTERACTION ──────────────────────────────────────────────────────
+  cards.forEach(function(c){
+    if(!c.el) return;
+    c.el.style.pointerEvents = 'auto';
+    c.el.style.touchAction   = 'none';
+    c.el.style.cursor        = 'grab';
+
+    function getPos(e){
+      var touch = e.touches ? e.touches[0] : e;
+      var rect  = container.getBoundingClientRect();
+      return { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
+    }
+    function onDown(e){
+      e.preventDefault();
+      c.dragging = true; c.returning = false;
+      c.el.style.cursor  = 'grabbing';
+      c.el.style.zIndex  = '999';
+      var pos = getPos(e);
+      c.dragX = pos.x - c.cardHalf;
+      c.dragY = pos.y - c.cardHalf;
+    }
+    function onMove(e){
+      if(!c.dragging) return;
+      e.preventDefault();
+      var pos = getPos(e);
+      c.dragX = pos.x - c.cardHalf;
+      c.dragY = pos.y - c.cardHalf;
+    }
+    function onUp(){
+      if(!c.dragging) return;
+      c.dragging = false; c.returning = true;
+      c.returnProgress = 0;
+      c._returnFromX = c.dragX;
+      c._returnFromY = c.dragY;
+      c.el.style.cursor = 'grab';
+    }
+    c.el.addEventListener('mousedown',  onDown);
+    c.el.addEventListener('touchstart', onDown, { passive: false });
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('touchmove', onMove, { passive: false });
+    window.addEventListener('mouseup',  onUp);
+    window.addEventListener('touchend', onUp);
+  });
+
+  function easeOutCubic(t)    { return 1 - Math.pow(1 - t, 3); }
+  function easeInOutCubic(t)  { return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+
+  var startTime = null;
+  var ENTER_DURATION = 1400;
+  var trails    = cards.map(function(){ return []; });
+  var MAX_TRAIL = 12;
+  var lastTs    = null;
+
+  function tick(ts){
+    if(!startTime) startTime = ts;
+    var dt      = lastTs ? Math.min((ts - lastTs) / 1000, 0.05) : 0.016;
+    lastTs      = ts;
+    var enterT  = Math.min(1, (ts - startTime) / ENTER_DURATION);
+    var ease    = easeOutCubic(enterT);
+    var t       = ts / 1000;
+
+    var W  = canvas.width  / window.devicePixelRatio;
+    var H  = canvas.height / window.devicePixelRatio;
+    var cx = W / 2, cy = H / 2;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Background glow
+    [{ x: cx + Math.cos(t*.15)*cx*.2,   y: cy + Math.sin(t*.11)*cy*.2,  r: W*.38, c:'rgba(248,186,8,' },
+     { x: cx + Math.cos(t*.09+2)*cx*.18, y: cy + Math.sin(t*.07+1)*cy*.18, r: W*.28, c:'rgba(0,188,212,' }
+    ].forEach(function(b){
+      var g = ctx.createRadialGradient(b.x,b.y,0,b.x,b.y,b.r);
+      g.addColorStop(0, b.c + '0.04)');
+      g.addColorStop(1, b.c + '0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+    });
+
+    // Particles
+    particles.forEach(function(p){
+      p.x += p.vx; p.y += p.vy;
+      if(p.x < 0) p.x = W; if(p.x > W) p.x = 0;
+      if(p.y < 0) p.y = H; if(p.y > H) p.y = 0;
+      ctx.globalAlpha = p.opacity * ease;
+      ctx.fillStyle   = p.color;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+
+    // Orbit ring (single, precise radius)
+    var orbitR = cards[0].radius;
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, orbitR, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(248,186,8,0.18)';
+    ctx.lineWidth   = 1;
+    ctx.setLineDash([6, 12]);
+    ctx.globalAlpha = ease;
+    ctx.stroke();
+    ctx.restore();
+    ctx.globalAlpha = 1;
+
+    // Advance angle — all cards same delta → uniform spacing preserved forever
+    var dAngle = (ORBIT_SPEED * Math.PI / 180) * dt;
+    cards.forEach(function(c){ c.angle += dAngle; });
+
+    // Draw each card
+    cards.forEach(function(c, i){
+      var orbX = cx + Math.cos(c.angle) * c.radius;
+      var orbY = cy + Math.sin(c.angle) * c.radius;
+
+      // Trail
+      trails[i].push({ x: orbX, y: orbY });
+      if(trails[i].length > MAX_TRAIL) trails[i].shift();
+      if(!c.dragging && trails[i].length > 2){
+        for(var k = 1; k < trails[i].length; k++){
+          var prog = k / trails[i].length;
+          ctx.globalAlpha  = prog * 0.12 * ease;
+          ctx.strokeStyle  = c.color;
+          ctx.lineWidth    = 1.2 * prog;
+          ctx.setLineDash([]);
+          ctx.beginPath();
+          ctx.moveTo(trails[i][k-1].x, trails[i][k-1].y);
+          ctx.lineTo(trails[i][k].x,   trails[i][k].y);
+          ctx.stroke();
+        }
+      }
+      ctx.globalAlpha = 1;
+
+      // Subtle beam center → card
+      if(!c.dragging){
+        ctx.globalAlpha = (0.05 + Math.abs(Math.sin(t*.7+i))*.04) * ease;
+        ctx.strokeStyle = c.color;
+        ctx.lineWidth   = 1;
+        ctx.setLineDash([3, 9]);
+        ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(orbX,orbY); ctx.stroke();
+        ctx.setLineDash([]); ctx.globalAlpha = 1;
+      }
+
+      // ── Positionnement sans saut ──────────────────────────────────────────
+      // Principe : le CENTRE de l'icône est toujours sur l'orbite.
+      // Le label est sous l'icône (flex-direction:column dans .md-card).
+      // Pour que le label pointe vers l'EXTÉRIEUR du centre en toute position,
+      // on décale dispY d'une valeur continue proportionnelle à sin(angle) :
+      //   · sin > 0  →  carte en bas  →  label tombe encore plus bas  →  pas de décalage nécessaire
+      //   · sin < 0  →  carte en haut →  label remonterait vers le logo →  on recule la carte vers le haut (dispY diminue)
+      //   · sin = 0  →  carte sur les côtés →  décalage = 0  →  zéro saut
+      //
+      // Formule : labelOffset = -sin(angle) × labelH
+      //   (négatif car CSS y+ = vers le bas, et on veut repousser vers l'extérieur)
+      //
+      // Ainsi le décalage est CONTINU → rotation parfaitement fluide.
+      var half   = c.cardHalf;
+      var sinA   = Math.sin(c.angle);
+      // décalage : quand sinA < 0 (haut), on remonte la carte de labelH pour éloigner le label du logo
+      var labelOffset = sinA < 0 ? sinA * c.labelH : 0;
+
+      var dispX, dispY;
+      if(c.dragging){
+        dispX = c.dragX;
+        dispY = c.dragY;
+      } else if(c.returning){
+        c.returnProgress = Math.min(1, c.returnProgress + 0.04);
+        var rp = easeInOutCubic(c.returnProgress);
+        var targetX = orbX - half;
+        var targetY = orbY - half + labelOffset;
+        dispX = c._returnFromX + (targetX - c._returnFromX) * rp;
+        dispY = c._returnFromY + (targetY - c._returnFromY) * rp;
+        if(c.returnProgress >= 1) c.returning = false;
+      } else {
+        dispX = orbX - half;
+        dispY = orbY - half + labelOffset;
+      }
+
+      c.opacity = ease; c.scale = ease;
+      if(c.el){
+        c.el.style.transform = 'translate(' + dispX + 'px,' + dispY + 'px) scale(' + c.scale + ')';
+        c.el.style.opacity   = c.opacity;
+        if(!c.dragging) c.el.style.zIndex = Math.round(10 + (orbY/H)*20);
+      }
+    });
+
+    requestAnimationFrame(tick);
+  }
+
+  cards.forEach(function(c){
+    if(c.el){
+      c.el.style.position = 'absolute';
+      c.el.style.top      = '0';
+      c.el.style.left     = '0';
+      c.el.style.opacity  = '0';
+    }
+  });
+
+  // Petit délai pour laisser le navigateur peindre les éléments
+  // avant de mesurer leurs dimensions réelles (offsetWidth, etc.)
+  setTimeout(function(){
+    resize();
+    window.addEventListener('resize', function(){ setTimeout(resize, 50); });
+    requestAnimationFrame(tick);
+  }, 80);
+}();
+
+/* ===== HERO SIDE PANELS ANIMATION ===== */
+!function(){
+  if(window.innerWidth<1024)return;
+  var leftItems=document.querySelectorAll('#hsl .hs-item');
+  var rightItems=document.querySelectorAll('#hsr .hs-item');
+  var allItems=Array.from(leftItems).concat(Array.from(rightItems));
+  setTimeout(function(){allItems.forEach(function(el){el.classList.add('fly')})},600);
+  function shootOne(){
+    var candidates=allItems.filter(function(el){return el.classList.contains('fly')&&!el.classList.contains('shoot')});
+    if(!candidates.length)return;
+    var el=candidates[Math.floor(Math.random()*candidates.length)];
+    el.classList.remove('fly');el.classList.add('shoot');
+    setTimeout(function(){el.classList.remove('shoot');setTimeout(function(){el.classList.add('fly')},300)},900);
+  }
+  setInterval(shootOne,1800);
+}();
+/* ===== DESIGN GRAPHIQUE — PANNEAU TÂCHES ===== */
+!function(){
+  var btn = document.getElementById('svcDesignToggle');
+  var panel = document.getElementById('svcDesignTasks');
+  if(!btn || !panel) return;
+
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    var t = I18N[curLang]||I18N.fr;
+    var isOpen = panel.classList.contains('open');
+    if(isOpen){
+      panel.classList.remove('open');
+      panel.setAttribute('aria-hidden','true');
+      btn.setAttribute('aria-expanded','false');
+      btn.classList.remove('open');
+      btn.querySelector('span').textContent = t.svc_detail_open||'Voir les prestations';
+    } else {
+      panel.classList.add('open');
+      panel.setAttribute('aria-hidden','false');
+      btn.setAttribute('aria-expanded','true');
+      btn.classList.add('open');
+      btn.querySelector('span').textContent = t.svc_detail_close||'Masquer';
+    }
+  });
+}();
+
+/* ===== BARRE DE RECHERCHE SERVICES ===== */
+!function(){
+  var input   = document.getElementById('svcSearchInput');
+  var clearBtn= document.getElementById('svcSearchClear');
+  var results = document.getElementById('svcSearchResults');
+  if(!input) return;
+
+  /* ---- Données indexées par langue ---- */
+  var dataByLang = {
+    fr: [
+      {t:'Création de logos',cat:'Design Graphique'},{t:"Création d'identité visuelle",cat:'Design Graphique'},{t:'Création de charte graphique',cat:'Design Graphique'},{t:'Design de cartes de visite',cat:'Design Graphique'},{t:'Création de flyers',cat:'Design Graphique'},{t:"Création d'affiches publicitaires",cat:'Design Graphique'},{t:'Création de brochures',cat:'Design Graphique'},{t:'Création de dépliants',cat:'Design Graphique'},{t:'Création de catalogues',cat:'Design Graphique'},{t:'Création de menus',cat:'Design Graphique'},{t:"Design d'étiquettes produits",cat:'Design Graphique'},{t:'Création de packaging / emballages',cat:'Design Graphique'},{t:'Création de mockups produits',cat:'Design Graphique'},{t:'Création de kakémonos et roll-up',cat:'Design Graphique'},{t:'Création de panneaux publicitaires',cat:'Design Graphique'},{t:'Habillage de vitrine',cat:'Design Graphique'},{t:'Création de signalétique',cat:'Design Graphique'},{t:'Design pour véhicules',cat:'Design Graphique'},{t:'Création de visuels pour réseaux sociaux',cat:'Design Graphique'},{t:'Création de stories Instagram/Facebook',cat:'Design Graphique'},{t:'Création de couvertures Facebook',cat:'Design Graphique'},{t:'Création de miniatures YouTube',cat:'Design Graphique'},{t:'Création de bannières YouTube',cat:'Design Graphique'},{t:'Création de publicités visuelles Meta Ads',cat:'Design Graphique'},{t:'Création de visuels Google Ads',cat:'Design Graphique'},{t:'Création de templates Canva',cat:'Design Graphique'},{t:'Création de templates réseaux sociaux',cat:'Design Graphique'},{t:'Retouche photo',cat:'Design Graphique'},{t:'Photomontage',cat:'Design Graphique'},{t:"Suppression d'arrière-plan",cat:'Design Graphique'},{t:"Amélioration et correction d'images",cat:'Design Graphique'},{t:"Création d'infographies",cat:'Design Graphique'},{t:"Création d'icônes et pictogrammes",cat:'Design Graphique'},{t:"Création d'illustrations vectorielles",cat:'Design Graphique'},{t:'Mise en page de documents',cat:'Design Graphique'},{t:'Création de CV professionnels',cat:'Design Graphique'},{t:'Création de portfolios',cat:'Design Graphique'},{t:'Mise en page de magazines et livres',cat:'Design Graphique'},{t:'Création de présentations professionnelles',cat:'Design Graphique'},{t:'Design UI/UX',cat:'Design Graphique'},{t:'Création de maquettes de sites web',cat:'Design Graphique'},{t:"Création de maquettes d'applications",cat:'Design Graphique'},{t:"Création d'interfaces utilisateur",cat:'Design Graphique'},{t:'Création de wireframes',cat:'Design Graphique'},{t:'Design de landing pages',cat:'Design Graphique'},{t:'Création de visuels promotionnels',cat:'Design Graphique'},{t:'Création de contenus visuels de marque',cat:'Design Graphique'},{t:'Branding et habillage visuel',cat:'Design Graphique'},{t:'Harmonisation des couleurs et typographies',cat:'Design Graphique'},{t:"Préparation des fichiers pour impression",cat:'Design Graphique'},{t:'Optimisation des images pour le web',cat:'Design Graphique'},{t:'Création de contenus visuels pour e-commerce',cat:'Design Graphique'},{t:'Création de visuels événementiels',cat:'Design Graphique'},{t:'Création de stickers et goodies',cat:'Design Graphique'},{t:'Création de moodboards',cat:'Design Graphique'},{t:'Recherche et développement de concepts visuels',cat:'Design Graphique'},
+      {t:'Stratégie social media',cat:'Community Management'},{t:'Création de contenu',cat:'Community Management'},{t:'Calendrier éditorial',cat:'Community Management'},{t:'Reporting mensuel',cat:'Community Management'},
+      {t:'Campagnes Meta Ads',cat:'Meta Ads & Google Ads'},{t:'Campagnes Google Ads',cat:'Meta Ads & Google Ads'},{t:'Ciblage précis',cat:'Meta Ads & Google Ads'},{t:'Optimisation ROI',cat:'Meta Ads & Google Ads'},
+      {t:'Montage vidéo',cat:'Montage Vidéo'},{t:'Animation',cat:'Montage Vidéo'},{t:'Motion design',cat:'Montage Vidéo'},{t:'Reels & Shorts',cat:'Montage Vidéo'},
+      {t:'Voix off professionnelle',cat:'Voix Off'},{t:'Narration',cat:'Voix Off'},{t:'Publicité audio',cat:'Voix Off'},{t:'Podcast',cat:'Voix Off'},
+      {t:'Campagnes emailing',cat:'Email Marketing'},{t:'Newsletter',cat:'Email Marketing'},{t:'Automatisation',cat:'Email Marketing'},{t:'Suivi & Reporting',cat:'Email Marketing'},
+      {t:'Site vitrine professionnel',cat:'Création de Site Web'},{t:'Landing page haute conversion',cat:'Création de Site Web'},{t:'Design responsive & mobile-first',cat:'Création de Site Web'},{t:'Référencement SEO & Performance',cat:'Création de Site Web'}
+    ],
+    en: [
+      {t:'Logo creation',cat:'Graphic Design'},{t:'Visual identity design',cat:'Graphic Design'},{t:'Brand guidelines',cat:'Graphic Design'},{t:'Business card design',cat:'Graphic Design'},{t:'Flyer design',cat:'Graphic Design'},{t:'Advertising poster design',cat:'Graphic Design'},{t:'Brochure design',cat:'Graphic Design'},{t:'Leaflet design',cat:'Graphic Design'},{t:'Catalogue design',cat:'Graphic Design'},{t:'Menu design',cat:'Graphic Design'},{t:'Product label design',cat:'Graphic Design'},{t:'Packaging design',cat:'Graphic Design'},{t:'Product mockups',cat:'Graphic Design'},{t:'Roll-up & kakemono design',cat:'Graphic Design'},{t:'Billboard design',cat:'Graphic Design'},{t:'Shop window branding',cat:'Graphic Design'},{t:'Signage design',cat:'Graphic Design'},{t:'Vehicle wrap design',cat:'Graphic Design'},{t:'Social media visuals',cat:'Graphic Design'},{t:'Instagram / Facebook stories',cat:'Graphic Design'},{t:'Facebook cover design',cat:'Graphic Design'},{t:'YouTube thumbnails',cat:'Graphic Design'},{t:'YouTube banners',cat:'Graphic Design'},{t:'Meta Ads visual creatives',cat:'Graphic Design'},{t:'Google Ads visuals',cat:'Graphic Design'},{t:'Canva templates',cat:'Graphic Design'},{t:'Social media templates',cat:'Graphic Design'},{t:'Photo retouching',cat:'Graphic Design'},{t:'Photo compositing',cat:'Graphic Design'},{t:'Background removal',cat:'Graphic Design'},{t:'Image enhancement & correction',cat:'Graphic Design'},{t:'Infographic design',cat:'Graphic Design'},{t:'Icons & pictograms',cat:'Graphic Design'},{t:'Vector illustration',cat:'Graphic Design'},{t:'Document layout',cat:'Graphic Design'},{t:'Professional CV design',cat:'Graphic Design'},{t:'Portfolio design',cat:'Graphic Design'},{t:'Magazine & book layout',cat:'Graphic Design'},{t:'Professional presentation design',cat:'Graphic Design'},{t:'UI/UX design',cat:'Graphic Design'},{t:'Website mockups',cat:'Graphic Design'},{t:'App mockups',cat:'Graphic Design'},{t:'User interface design',cat:'Graphic Design'},{t:'Wireframes',cat:'Graphic Design'},{t:'Landing page design',cat:'Graphic Design'},{t:'Promotional visuals',cat:'Graphic Design'},{t:'Brand visual content',cat:'Graphic Design'},{t:'Branding & visual identity',cat:'Graphic Design'},{t:'Color & typography harmonisation',cat:'Graphic Design'},{t:'Print-ready file preparation',cat:'Graphic Design'},{t:'Web image optimisation',cat:'Graphic Design'},{t:'E-commerce visual content',cat:'Graphic Design'},{t:'Event visuals',cat:'Graphic Design'},{t:'Stickers & branded merchandise',cat:'Graphic Design'},{t:'Moodboards',cat:'Graphic Design'},{t:'Visual concept development',cat:'Graphic Design'},
+      {t:'Social media strategy',cat:'Community Management'},{t:'Content creation',cat:'Community Management'},{t:'Editorial calendar',cat:'Community Management'},{t:'Monthly reporting',cat:'Community Management'},
+      {t:'Meta Ads campaigns',cat:'Meta Ads & Google Ads'},{t:'Google Ads campaigns',cat:'Meta Ads & Google Ads'},{t:'Precise targeting',cat:'Meta Ads & Google Ads'},{t:'ROI optimisation',cat:'Meta Ads & Google Ads'},
+      {t:'Video editing',cat:'Video Editing'},{t:'Animation',cat:'Video Editing'},{t:'Motion design',cat:'Video Editing'},{t:'Reels & Shorts',cat:'Video Editing'},
+      {t:'Professional voice over',cat:'Voice Over'},{t:'Narration',cat:'Voice Over'},{t:'Audio advertising',cat:'Voice Over'},{t:'Podcast',cat:'Voice Over'},
+      {t:'Email campaigns',cat:'Email Marketing'},{t:'Newsletter',cat:'Email Marketing'},{t:'Automation',cat:'Email Marketing'},{t:'Tracking & Reporting',cat:'Email Marketing'},
+      {t:'Professional showcase website',cat:'Website Creation'},{t:'High-conversion landing page',cat:'Website Creation'},{t:'Responsive & mobile-first design',cat:'Website Creation'},{t:'SEO & Performance',cat:'Website Creation'}
+    ],
+    zh: [
+      {t:'Logo设计',cat:'平面设计'},{t:'视觉形象设计',cat:'平面设计'},{t:'品牌规范手册',cat:'平面设计'},{t:'名片设计',cat:'平面设计'},{t:'宣传单页设计',cat:'平面设计'},{t:'广告海报设计',cat:'平面设计'},{t:'宣传册设计',cat:'平面设计'},{t:'折页设计',cat:'平面设计'},{t:'产品目录设计',cat:'平面设计'},{t:'菜单设计',cat:'平面设计'},{t:'产品标签设计',cat:'平面设计'},{t:'包装设计',cat:'平面设计'},{t:'产品样机设计',cat:'平面设计'},{t:'易拉宝设计',cat:'平面设计'},{t:'广告牌设计',cat:'平面设计'},{t:'橱窗视觉设计',cat:'平面设计'},{t:'导视系统设计',cat:'平面设计'},{t:'车身广告设计',cat:'平面设计'},{t:'社交媒体视觉',cat:'平面设计'},{t:'Instagram/Facebook故事设计',cat:'平面设计'},{t:'Facebook封面设计',cat:'平面设计'},{t:'YouTube缩略图设计',cat:'平面设计'},{t:'YouTube横幅设计',cat:'平面设计'},{t:'Meta广告视觉素材',cat:'平面设计'},{t:'Google广告视觉',cat:'平面设计'},{t:'Canva模板设计',cat:'平面设计'},{t:'社交媒体模板',cat:'平面设计'},{t:'照片修饰',cat:'平面设计'},{t:'图像合成',cat:'平面设计'},{t:'背景去除',cat:'平面设计'},{t:'图像增强与修正',cat:'平面设计'},{t:'信息图表设计',cat:'平面设计'},{t:'图标与象形图',cat:'平面设计'},{t:'矢量插图',cat:'平面设计'},{t:'文档排版',cat:'平面设计'},{t:'专业简历设计',cat:'平面设计'},{t:'作品集设计',cat:'平面设计'},{t:'杂志与书籍排版',cat:'平面设计'},{t:'专业演示文稿设计',cat:'平面设计'},{t:'UI/UX设计',cat:'平面设计'},{t:'网站原型设计',cat:'平面设计'},{t:'应用程序原型设计',cat:'平面设计'},{t:'用户界面设计',cat:'平面设计'},{t:'线框图设计',cat:'平面设计'},{t:'落地页设计',cat:'平面设计'},{t:'促销视觉设计',cat:'平面设计'},{t:'品牌视觉内容',cat:'平面设计'},{t:'品牌塑造与视觉包装',cat:'平面设计'},{t:'色彩与字体协调',cat:'平面设计'},{t:'印前文件准备',cat:'平面设计'},{t:'网络图像优化',cat:'平面设计'},{t:'电商视觉内容',cat:'平面设计'},{t:'活动视觉设计',cat:'平面设计'},{t:'贴纸与周边设计',cat:'平面设计'},{t:'情绪板设计',cat:'平面设计'},{t:'视觉概念研发',cat:'平面设计'},
+      {t:'社媒策略',cat:'社区管理'},{t:'内容创作',cat:'社区管理'},{t:'内容日历',cat:'社区管理'},{t:'月度报告',cat:'社区管理'},
+      {t:'Meta广告活动',cat:'Meta广告与Google广告'},{t:'Google广告活动',cat:'Meta广告与Google广告'},{t:'精准定向',cat:'Meta广告与Google广告'},{t:'ROI优化',cat:'Meta广告与Google广告'},
+      {t:'视频剪辑',cat:'视频剪辑'},{t:'动画',cat:'视频剪辑'},{t:'动态设计',cat:'视频剪辑'},{t:'短视频',cat:'视频剪辑'},
+      {t:'专业配音',cat:'配音'},{t:'旁白',cat:'配音'},{t:'音频广告',cat:'配音'},{t:'播客',cat:'配音'},
+      {t:'邮件营销活动',cat:'电子邮件营销'},{t:'新闻简报',cat:'电子邮件营销'},{t:'自动化',cat:'电子邮件营销'},{t:'追踪与报告',cat:'电子邮件营销'},
+      {t:'专业展示网站',cat:'网站开发'},{t:'高转化落地页',cat:'网站开发'},{t:'响应式与移动优先设计',cat:'网站开发'},{t:'SEO与性能优化',cat:'网站开发'}
+    ]
+  };
+
+  function highlight(text, query){
+    var re = new RegExp('('+query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+    return text.replace(re,'<mark>$1</mark>');
+  }
+
+  function getCurrentData(){
+    return dataByLang[curLang] || dataByLang.fr;
+  }
+
+  function getNoResultText(q){
+    var t = I18N[curLang]||I18N.fr;
+    return (t.svc_no_result||'Aucun résultat pour')+' "<strong>'+q+'</strong>"';
+  }
+
+  function search(q){
+    q = q.trim();
+    if(q.length < 2){ hideResults(); return; }
+    var ql = q.toLowerCase();
+    var hits = getCurrentData().filter(function(d){ return d.t.toLowerCase().indexOf(ql) !== -1; });
+    if(!hits.length){
+      results.innerHTML = '<div class="svc-search-no-result">'+getNoResultText(q)+'</div>';
+    } else {
+      results.innerHTML = hits.slice(0,12).map(function(d){
+        return '<div class="svc-search-result-item">'
+          +'<span class="svc-search-result-dot"></span>'
+          +'<span class="svc-search-result-text">'+highlight(d.t, q)+'</span>'
+          +'<span class="svc-search-result-cat">'+d.cat+'</span>'
+          +'</div>';
+      }).join('');
+    }
+    results.style.display = 'block';
+  }
+
+  function hideResults(){
+    results.style.display = 'none';
+    results.innerHTML = '';
+  }
+
+  input.addEventListener('input', function(){
+    var val = this.value;
+    clearBtn.style.display = val ? 'flex' : 'none';
+    search(val);
+  });
+
+  clearBtn.addEventListener('click', function(){
+    input.value = '';
+    clearBtn.style.display = 'none';
+    hideResults();
+    input.focus();
+  });
+
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.svc-search-wrap')) hideResults();
+  });
+
+  input.addEventListener('focus', function(){
+    if(this.value.length >= 2) search(this.value);
+  });
+}();
