@@ -1,0 +1,824 @@
+/*
+ * ============================================================
+ *  ANKINO MG — PREMIUM ANIMATIONS v3
+ *  Agency-grade visual effects — performance-safe
+ *  100% CSS, uses will-change only where needed,
+ *  respects prefers-reduced-motion, no layout shifts.
+ * ============================================================
+ */
+
+/* ── 1. AMBIENT AURORA BACKGROUND ─────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% -10%, rgba(248,186,8,.045) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 110%, rgba(0,188,212,.035) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(167,119,255,.02) 0%, transparent 70%);
+  animation: auroraShift 18s ease-in-out infinite alternate;
+}
+@keyframes auroraShift {
+  0%   { opacity: .6; transform: scale(1) translateY(0); }
+  50%  { opacity: 1;  transform: scale(1.04) translateY(-12px); }
+  100% { opacity: .7; transform: scale(1.02) translateY(8px); }
+}
+@media (max-width: 1023px) { body::before { display: none; } }
+
+/* ── 2. PRELOADER: cinematic reveal ───────────────────────── */
+@keyframes preloaderOut {
+  0%   { opacity: 1; transform: scale(1); }
+  80%  { opacity: 0; transform: scale(1.08); }
+  100% { opacity: 0; pointer-events: none; visibility: hidden; }
+}
+.preloader.done {
+  animation: preloaderOut .85s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+/* Logo pulse inside preloader */
+.preloader img,
+.preloader .pl-logo {
+  animation: preloaderLogoPulse 1.6s ease-in-out infinite;
+  filter: drop-shadow(0 0 18px rgba(248,186,8,.45));
+}
+@keyframes preloaderLogoPulse {
+  0%,100% { transform: scale(1);    filter: drop-shadow(0 0 14px rgba(248,186,8,.4)); }
+  50%      { transform: scale(1.06); filter: drop-shadow(0 0 30px rgba(248,186,8,.7)); }
+}
+
+/* ── 3. NAV: glassmorphism depth on scroll ────────────────── */
+.nav.stuck {
+  box-shadow: 0 1px 40px rgba(0,0,0,.35), 0 0 0 1px rgba(248,186,8,.06);
+  transition: all .4s cubic-bezier(.22,1,.36,1);
+}
+/* Logo text shimmer on hover */
+.nav-logo b {
+  background: linear-gradient(90deg, #fff 30%, #F8BA08 50%, #fff 70%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-position: 0%;
+  transition: background-position .6s ease;
+}
+.nav-logo:hover b {
+  background-position: -100%;
+  animation: logoTextShimmer .8s ease forwards;
+}
+@keyframes logoTextShimmer {
+  to { background-position: 200%; }
+}
+
+/* ── 4. HERO: multi-layer reveal sequence ─────────────────── */
+/* Location badge enhanced float */
+.loc {
+  box-shadow: 0 4px 24px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+/* Hero h1: staggered word reveal */
+body.js .hero-tx h1 {
+  opacity: 0;
+  transform: translateY(28px) skewY(2deg);
+  transition: opacity .9s cubic-bezier(.22,1,.36,1), transform .9s cubic-bezier(.22,1,.36,1);
+}
+body.js .hero-tx h1.show {
+  opacity: 1;
+  transform: translateY(0) skewY(0deg);
+}
+
+/* Gradient text: moving shimmer */
+.gd {
+  background: linear-gradient(90deg, #F8BA08 0%, #FFCB05 25%, #FF9500 50%, #F8BA08 75%, #FFCB05 100%);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: goldShimmer 4s linear infinite;
+}
+@keyframes goldShimmer {
+  0%   { background-position: 0%   center; }
+  100% { background-position: 300% center; }
+}
+
+/* Hero paragraph: slight blur-in */
+body.js .hero-tx p {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(16px);
+  transition: opacity .8s .3s ease, filter .8s .3s ease, transform .8s .3s ease;
+}
+body.js .hero-tx p.show {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+/* CTA primary button: animated gradient border + shimmer */
+.bp {
+  background: linear-gradient(135deg, #F8BA08, #FF9500);
+  background-size: 200% 200%;
+  animation: btnGradient 3s ease infinite;
+  box-shadow: 0 4px 25px rgba(248,186,8,.3), inset 0 1px 0 rgba(255,255,255,.2);
+}
+@keyframes btnGradient {
+  0%,100% { background-position: 0%   50%; }
+  50%      { background-position: 100% 50%; }
+}
+.bp:hover {
+  box-shadow: 0 8px 40px rgba(248,186,8,.55), inset 0 1px 0 rgba(255,255,255,.25);
+  transform: translateY(-3px) scale(1.03);
+}
+
+/* Outline button: border glow on hover */
+.bo:hover {
+  border-color: rgba(248,186,8,.5);
+  box-shadow: 0 0 20px rgba(248,186,8,.12), inset 0 0 20px rgba(248,186,8,.04);
+}
+
+/* ── 5. SCROLL-REVEAL: enhanced directional entry ─────────── */
+body.js .rv {
+  opacity: 0;
+  transform: translateY(36px);
+  filter: blur(2px);
+  transition: opacity .75s cubic-bezier(.22,1,.36,1),
+              transform .75s cubic-bezier(.22,1,.36,1),
+              filter .6s ease;
+}
+body.js .rv.show {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+body.js .rv-left  { opacity:0; transform:translateX(-36px); filter:blur(2px); transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1),filter .6s ease; }
+body.js .rv-right { opacity:0; transform:translateX(36px);  filter:blur(2px); transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1),filter .6s ease; }
+body.js .rv-left.show, body.js .rv-right.show { opacity:1; transform:translateX(0); filter:blur(0); }
+body.js .rv-scale  { opacity:0; transform:scale(.9); filter:blur(3px); transition:opacity .7s ease,transform .7s ease,filter .6s ease; }
+body.js .rv-scale.show { opacity:1; transform:scale(1); filter:blur(0); }
+
+/* ── 6. SECTION TAG: glowing dot ─────────────────────────── */
+.tag {
+  box-shadow: 0 2px 12px rgba(248,186,8,.08);
+}
+.tag::before {
+  box-shadow: 0 0 6px rgba(248,186,8,.6);
+}
+
+/* ── 7. SERVICE CARDS: depth + tilt preparation ──────────── */
+.svc {
+  background: rgba(26,42,68,.45);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.05);
+  box-shadow: 0 2px 20px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.04);
+  transition: transform .45s cubic-bezier(.34,1.56,.64,1),
+              box-shadow .45s ease,
+              border-color .3s ease;
+}
+.svc:hover {
+  box-shadow: 0 28px 70px rgba(0,0,0,.4),
+              0 0 0 1px rgba(248,186,8,.25),
+              0 0 50px rgba(248,186,8,.04),
+              inset 0 1px 0 rgba(255,255,255,.07);
+}
+
+/* Service icon: color pulse on hover */
+.svc-ico {
+  position: relative;
+  overflow: hidden;
+}
+.svc-ico::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.12) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity .3s;
+}
+.svc:hover .svc-ico::after { opacity: 1; }
+
+/* Featured card enhanced border */
+.svc-feat {
+  box-shadow: 0 8px 40px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.svc-feat:hover {
+  box-shadow: 0 24px 80px rgba(0,0,0,.4), 0 0 60px rgba(248,186,8,.06), inset 0 1px 0 rgba(255,255,255,.07);
+}
+
+/* ── 8. PORTFOLIO CARDS: reveal overlay ──────────────────── */
+.pc {
+  background: rgba(13,27,42,.95);
+  box-shadow: 0 4px 24px rgba(0,0,0,.2);
+  transition: transform .45s cubic-bezier(.34,1.56,.64,1), box-shadow .4s ease, border-color .3s;
+}
+.pc::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(248,186,8,.06) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity .4s;
+  pointer-events: none;
+}
+.pc:hover::after { opacity: 1; }
+.pc:hover {
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 24px 64px rgba(0,0,0,.45),
+              0 0 0 1px rgba(248,186,8,.2),
+              0 0 40px rgba(248,186,8,.05);
+}
+
+/* Filter tabs: morph effect */
+.fb {
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 10px rgba(0,0,0,.15);
+}
+.fb.on {
+  box-shadow: 0 4px 24px rgba(248,186,8,.35), inset 0 1px 0 rgba(255,255,255,.2);
+  animation: tabActivate .4s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes tabActivate {
+  0%   { transform: scale(.92); }
+  60%  { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+/* ── 9. PROCESS CARDS: numbered glow + connector line ─────── */
+.prc {
+  background: rgba(26,42,68,.5);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 30px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.04);
+  transition: transform .45s cubic-bezier(.34,1.56,.64,1),
+              box-shadow .4s ease, border-color .3s;
+}
+.prc:hover {
+  box-shadow: 0 24px 60px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+/* Number: gradient color */
+.prc-n {
+  background: linear-gradient(135deg, #F8BA08, rgba(248,186,8,.3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 12px rgba(248,186,8,.2));
+  transition: filter .4s, opacity .4s;
+}
+.prc:hover .prc-n {
+  filter: drop-shadow(0 4px 20px rgba(248,186,8,.5));
+  opacity: .12;
+}
+
+/* ── 10. TESTIMONIALS: carousel ───────────────────────────── */
+.tst {
+  background: rgba(13,27,42,.98);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 40px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.04);
+}
+.tst:hover {
+  box-shadow: 0 20px 64px rgba(0,0,0,.4), 0 0 0 1px rgba(248,186,8,.1);
+}
+
+/* Stars: individual stagger glow */
+.tst-st svg {
+  filter: drop-shadow(0 0 4px rgba(248,186,8,.4));
+  transition: transform .25s cubic-bezier(.34,1.56,.64,1), filter .25s;
+}
+.tst-st:hover svg:nth-child(1) { transform: scale(1.3) rotate(-10deg); transition-delay: .00s; }
+.tst-st:hover svg:nth-child(2) { transform: scale(1.3) rotate(5deg);   transition-delay: .04s; }
+.tst-st:hover svg:nth-child(3) { transform: scale(1.35) rotate(-5deg); transition-delay: .08s; }
+.tst-st:hover svg:nth-child(4) { transform: scale(1.3) rotate(8deg);   transition-delay: .12s; }
+.tst-st:hover svg:nth-child(5) { transform: scale(1.3) rotate(-5deg);  transition-delay: .16s; }
+
+/* Quote mark: ambient glow */
+.tst-qi {
+  animation: quoteFloat 5s ease-in-out infinite;
+}
+@keyframes quoteFloat {
+  0%,100% { transform: translateY(0)    rotate(0deg);   opacity: .07; }
+  50%      { transform: translateY(-8px) rotate(-5deg);  opacity: .12; }
+}
+
+/* ── 11. ABOUT: stat counters & value cards ───────────────── */
+.sta {
+  background: rgba(26,42,68,.5);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 20px rgba(0,0,0,.15), inset 0 1px 0 rgba(255,255,255,.04);
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s, border-color .3s;
+}
+.sta:hover {
+  transform: translateY(-6px) scale(1.04);
+  box-shadow: 0 16px 48px rgba(0,0,0,.3), 0 0 0 1px rgba(248,186,8,.15), inset 0 1px 0 rgba(255,255,255,.06);
+  border-color: rgba(248,186,8,.18);
+}
+.sta-n {
+  background: linear-gradient(135deg, #F8BA08 0%, #FFCB05 50%, #FF9500 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 12px rgba(248,186,8,.3));
+}
+.sta:hover .sta-n {
+  filter: drop-shadow(0 4px 24px rgba(248,186,8,.5));
+  animation: statPop .4s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes statPop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* Value cards: inner glow line at top */
+.val {
+  background: rgba(26,42,68,.5);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 20px rgba(0,0,0,.15), inset 0 1px 0 rgba(255,255,255,.05);
+  position: relative;
+  overflow: hidden;
+}
+.val::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(248,186,8,.6), transparent);
+  transition: left .5s ease;
+}
+.val:hover::before { left: 100%; }
+.val:hover {
+  box-shadow: 0 16px 48px rgba(0,0,0,.3), 0 0 0 1px rgba(248,186,8,.2), inset 0 1px 0 rgba(255,255,255,.07);
+}
+
+/* ── 12. CONTACT SECTION: cards depth ────────────────────── */
+.cta-c {
+  box-shadow: 0 4px 24px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.08);
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s;
+}
+.cc1 {
+  box-shadow: 0 6px 32px rgba(248,186,8,.25), inset 0 1px 0 rgba(255,255,255,.2);
+}
+.cc1:hover {
+  box-shadow: 0 16px 50px rgba(248,186,8,.45), inset 0 1px 0 rgba(255,255,255,.25);
+}
+.cc2 {
+  box-shadow: 0 6px 32px rgba(37,211,102,.2), inset 0 1px 0 rgba(255,255,255,.12);
+}
+.cc2:hover {
+  box-shadow: 0 16px 50px rgba(37,211,102,.35), inset 0 1px 0 rgba(255,255,255,.15);
+}
+.cc3:hover {
+  box-shadow: 0 16px 50px rgba(0,0,0,.3), 0 0 0 1px rgba(248,186,8,.2);
+}
+
+/* Contact form: glass depth */
+.cform {
+  background: rgba(13,27,42,.97);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 4px 40px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+/* Input fields: neon focus glow */
+.fi:focus {
+  border-color: #F8BA08;
+  box-shadow: 0 0 0 3px rgba(248,186,8,.15),
+              0 0 20px rgba(248,186,8,.07),
+              inset 0 0 0 1px rgba(248,186,8,.1);
+  background: rgba(26,42,68,.85);
+}
+
+/* Submit button: pulse ring on hover */
+.bsub {
+  background: linear-gradient(135deg, #F8BA08, #FF9500);
+  background-size: 200% 200%;
+  animation: btnGradient 3s ease infinite;
+  box-shadow: 0 4px 24px rgba(248,186,8,.28), inset 0 1px 0 rgba(255,255,255,.2);
+}
+.bsub:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 40px rgba(248,186,8,.5), inset 0 1px 0 rgba(255,255,255,.25);
+}
+
+/* ── 13. FOOTER: ambient section ─────────────────────────── */
+.ft {
+  position: relative;
+  overflow: hidden;
+}
+/* Ambient glow at top of footer */
+.ft::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(248,186,8,.2), transparent);
+  box-shadow: 0 0 24px 4px rgba(248,186,8,.06);
+}
+
+/* Social links: staggered hover lift */
+.ft-soc a {
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1), background .3s, color .3s, box-shadow .3s;
+}
+.ft-soc a:nth-child(1):hover { transition-delay: 0s; }
+.ft-soc a:nth-child(2):hover { transition-delay: .03s; }
+.ft-soc a:nth-child(3):hover { transition-delay: .06s; }
+.ft-soc a:nth-child(4):hover { transition-delay: .09s; }
+
+/* Footer nav links: chevron reveal */
+.ft ul li {
+  position: relative;
+  transition: transform .25s ease;
+}
+
+/* ── 14. WHATSAPP FAB: premium treatment ─────────────────── */
+.waf {
+  box-shadow: 0 6px 32px rgba(37,211,102,.3), 0 2px 12px rgba(0,0,0,.3);
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s;
+}
+.waf:hover {
+  box-shadow: 0 12px 48px rgba(37,211,102,.5), 0 4px 20px rgba(0,0,0,.4);
+}
+
+/* ── 15. SCROLL-TO-TOP: gradient ring ────────────────────── */
+.stt {
+  background: linear-gradient(135deg, #F8BA08, #FF9500);
+  box-shadow: 0 4px 24px rgba(248,186,8,.3);
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .4s;
+}
+.stt:hover {
+  transform: scale(1.15) translateY(-3px);
+  box-shadow: 0 10px 40px rgba(248,186,8,.55);
+}
+
+/* ── 16. MOUSE TRAIL: enhanced cursor ring ────────────────── */
+#cur-ring {
+  box-shadow: 0 0 18px rgba(248,186,8,.25), 0 0 6px rgba(248,186,8,.15);
+}
+#cur.p #cur-ring {
+  box-shadow: 0 0 28px rgba(248,186,8,.4), 0 0 10px rgba(248,186,8,.2);
+}
+
+/* ── 17. SECTION SEPARATORS: enhanced glow ────────────────── */
+.sep {
+  box-shadow: 0 0 12px rgba(248,186,8,.08);
+}
+
+/* ── 18. HERO ORBIT: enhanced center logo ring ────────────── */
+.c-circle {
+  box-shadow:
+    0 0 0 4px rgba(248,186,8,.1),
+    0 0 40px rgba(248,186,8,.15),
+    0 0 80px rgba(248,186,8,.05),
+    inset 0 1px 0 rgba(255,255,255,.08);
+  transition: box-shadow .4s ease, border-color .4s;
+}
+
+/* ── 19. LOGO CAROUSEL: enhanced fades ────────────────────── */
+.logo-slide {
+  box-shadow: 0 2px 12px rgba(0,0,0,.1);
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+}
+.logo-slide:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 8px 28px rgba(0,0,0,.18);
+}
+
+/* ── 20. MOBILE MENU: blurred glass ──────────────────────── */
+.mob {
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  border-bottom: 1px solid rgba(248,186,8,.06);
+}
+
+/* ── 21. SECTION HEADINGS: title glow on reveal ──────────── */
+body.js .stl.show {
+  animation: headingGlow .8s ease forwards;
+}
+@keyframes headingGlow {
+  0%   { text-shadow: 0 0 0 rgba(248,186,8,0); }
+  50%  { text-shadow: 0 0 40px rgba(248,186,8,.15); }
+  100% { text-shadow: 0 0 0 rgba(248,186,8,0); }
+}
+
+/* ── 22. PROCESS TIMELINE LINE: glowing flow ─────────────── */
+@media (min-width: 601px) {
+  .pr-timeline::before {
+    box-shadow: 0 0 12px rgba(248,186,8,.5), 0 0 30px rgba(248,186,8,.25);
+  }
+}
+
+/* ── 23. ADVANCED: particle shimmer on hero grid ─────────── */
+@media (min-width: 1024px) {
+  .hero-grid {
+    opacity: .07;
+    animation: gridDrift 25s linear infinite, gridPulse 8s ease-in-out infinite;
+  }
+  @keyframes gridPulse {
+    0%,100% { opacity: .05; }
+    50%      { opacity: .09; }
+  }
+}
+
+/* ── 24. CARD MOUSE-FOLLOW GLOW: CSS fallback ────────────── */
+/* Already handled by JS --mx/--my vars; add crisp inner border */
+.svc::before {
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%),
+    rgba(248,186,8,.07) 0%,
+    rgba(248,186,8,.02) 40%,
+    transparent 65%);
+}
+
+/* ── 25. TILT PERSPECTIVE: applied via JS but CSS ready ───── */
+.svc, .prc, .sta, .val, .pc, .cta-c {
+  transform-style: preserve-3d;
+}
+
+/* ── 26. SCROLL INDICATOR: breathing glow ─────────────────── */
+.scroll-i i {
+  box-shadow: 0 0 10px rgba(248,186,8,.2), 0 0 20px rgba(248,186,8,.08);
+}
+.scroll-i span {
+  text-shadow: 0 0 12px rgba(248,186,8,.4);
+}
+
+/* ── 27. SERVICE SEARCH RESULTS DROPDOWN ─────────────────── */
+.svc-search-results {
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 80px rgba(0,0,0,.8), 0 0 0 1px rgba(248,186,8,.15);
+}
+
+/* ── 28. BROWSER MOCKUP BLOCKS: stagger depth ────────────── */
+.browser-mock {
+  box-shadow: 0 20px 60px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.04);
+  transition: transform .5s cubic-bezier(.34,1.56,.64,1), box-shadow .5s;
+}
+.svc-feat:hover .browser-mock {
+  transform: translateY(-10px) rotateX(2deg);
+  box-shadow: 0 30px 80px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+/* ── 29. GLOBAL FOCUS: keyboard nav glow ─────────────────── */
+a:focus-visible, button:focus-visible, input:focus-visible,
+textarea:focus-visible, select:focus-visible {
+  outline: 2px solid #F8BA08;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(248,186,8,.15);
+}
+
+/* ── 30. MICRO-INTERACTIONS: checklist dot spring ─────────── */
+.ck-d {
+  transition: background .3s, transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+}
+.ck li:hover .ck-d {
+  background: rgba(248,186,8,.25);
+  transform: scale(1.2) rotate(10deg);
+  box-shadow: 0 0 10px rgba(248,186,8,.3);
+}
+
+/* ── 31. HERO SIDE PANEL ITEMS: depth shadow ─────────────── */
+@media (min-width: 1024px) {
+  .hs-pill, .hs-react {
+    box-shadow: 0 4px 20px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.06);
+    transition: transform .4s cubic-bezier(.34,1.56,.64,1),
+                background .3s, border-color .3s, box-shadow .3s;
+  }
+  .hs-pill:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.08);
+  }
+}
+
+/* ── 32. LOCATION DOT: stronger pulse ────────────────────── */
+.loc-d {
+  box-shadow: 0 0 12px rgba(37,211,102,.6), 0 0 24px rgba(37,211,102,.3);
+}
+
+/* ── 33. OVERALL: prevent layout shift from animations ─────── */
+.hero-tx, .hero-bs, .loc,
+.svc, .prc, .pc, .sta, .val,
+.tst, .cta-c, .cform {
+  backface-visibility: hidden;
+}
+
+/* ══════════════════════════════════════════════════════════
+   ✦ MOBILE-SPECIFIC PREMIUM ANIMATIONS
+   Performant, touch-friendly, GPU-accelerated
+   ══════════════════════════════════════════════════════════ */
+
+@media (max-width: 1023px) {
+
+  /* ── M1. Aurora mobile : version légère fixe ── */
+  body::before {
+    display: block;
+    background:
+      radial-gradient(ellipse 120% 50% at 50% -5%, rgba(248,186,8,.05) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 40% at 80% 110%, rgba(0,188,212,.04) 0%, transparent 55%);
+    animation: mobileAurora 12s ease-in-out infinite alternate;
+    opacity: 1;
+  }
+  @keyframes mobileAurora {
+    0%   { opacity: .5; }
+    100% { opacity: 1; }
+  }
+
+  /* ── M2. Hero heading : slide-up avec blur ── */
+  body.js .hero-tx h1 {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(6px);
+    transition: opacity .9s cubic-bezier(.22,1,.36,1),
+                transform .9s cubic-bezier(.22,1,.36,1),
+                filter .7s ease;
+  }
+  body.js .hero-tx h1.show {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+
+  /* ── M3. Cards : tap feedback spring ── */
+  .svc:active,
+  .pc:active,
+  .prc:active,
+  .val:active,
+  .sta:active {
+    transform: scale(.97);
+    transition: transform .15s ease;
+  }
+
+  /* ── M4. CTA buttons : tap scale spring ── */
+  .bp:active  { transform: scale(.95); transition: transform .12s ease; }
+  .bo:active  { transform: scale(.96); transition: transform .12s ease; }
+  .bsub:active{ transform: scale(.97); transition: transform .12s ease; }
+
+  /* ── M5. Mobile cards : enhanced shadow on reveal ── */
+  body.js .svc.show,
+  body.js .prc.show,
+  body.js .pc.show {
+    animation: mobileCardReveal .6s cubic-bezier(.22,1,.36,1) both;
+  }
+  @keyframes mobileCardReveal {
+    0%   { opacity: 0; transform: translateY(28px) scale(.96); filter: blur(4px); }
+    100% { opacity: 1; transform: translateY(0)    scale(1);    filter: blur(0); }
+  }
+
+  /* ── M6. Section tags : pulse glow ── */
+  .tag {
+    animation: tagMobilePulse 3s ease-in-out infinite;
+  }
+  @keyframes tagMobilePulse {
+    0%,100% { box-shadow: 0 0 0 rgba(248,186,8,0); }
+    50%      { box-shadow: 0 0 16px rgba(248,186,8,.15); }
+  }
+
+  /* ── M7. WhatsApp FAB : attention bounce ── */
+  .waf {
+    animation: wafBounce 4s cubic-bezier(.36,0,.66,-.56) infinite;
+  }
+  @keyframes wafBounce {
+    0%,90%,100% { transform: translateY(0) scale(1); }
+    93%          { transform: translateY(-8px) scale(1.05); }
+    96%          { transform: translateY(-2px) scale(1.02); }
+  }
+
+  /* ── M8. Gradient text shimmer plus rapide sur mobile ── */
+  .gd {
+    animation: goldShimmer 2.5s linear infinite;
+  }
+
+  /* ── M9. Scroll indicator : breathing ── */
+  .scroll-i i {
+    animation: scrollLineDrop 1.8s ease-in-out infinite,
+               scrollGlow 2.5s ease-in-out infinite;
+  }
+  @keyframes scrollGlow {
+    0%,100% { box-shadow: 0 0 6px rgba(248,186,8,.2); }
+    50%      { box-shadow: 0 0 18px rgba(248,186,8,.5); }
+  }
+
+  /* ── M10. Location badge : float doux ── */
+  .loc {
+    animation: locFloat 3.5s ease-in-out infinite,
+               locGlow 4s ease-in-out infinite;
+  }
+  @keyframes locGlow {
+    0%,100% { box-shadow: 0 4px 20px rgba(0,0,0,.2); }
+    50%      { box-shadow: 0 4px 28px rgba(248,186,8,.12), 0 0 0 1px rgba(248,186,8,.06); }
+  }
+
+  /* ── M11. Hero blobs : animés sur mobile (légers) ── */
+  .hero-b1 {
+    animation: mobileBlobDrift1 14s ease-in-out infinite !important;
+    opacity: .06 !important;
+  }
+  .hero-b2 {
+    animation: mobileBlobDrift2 18s ease-in-out infinite !important;
+    opacity: .05 !important;
+  }
+  @keyframes mobileBlobDrift1 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50%      { transform: translate(2%,3%) scale(1.05); }
+  }
+  @keyframes mobileBlobDrift2 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    50%      { transform: translate(-2%,-3%) scale(1.04); }
+  }
+
+  /* ── M12. Stats : number glow au reveal ── */
+  .sta.show .sta-n {
+    animation: mobileStatGlow .8s ease forwards;
+  }
+  @keyframes mobileStatGlow {
+    0%   { filter: drop-shadow(0 0 0 rgba(248,186,8,0)); }
+    50%  { filter: drop-shadow(0 0 20px rgba(248,186,8,.6)); }
+    100% { filter: drop-shadow(0 2px 12px rgba(248,186,8,.3)); }
+  }
+
+  /* ── M13. Contact cards : slide from bottom stagger ── */
+  body.js .cta-c.show:nth-child(1) { animation: mobileCardReveal .55s .05s cubic-bezier(.22,1,.36,1) both; }
+  body.js .cta-c.show:nth-child(2) { animation: mobileCardReveal .55s .15s cubic-bezier(.22,1,.36,1) both; }
+  body.js .cta-c.show:nth-child(3) { animation: mobileCardReveal .55s .25s cubic-bezier(.22,1,.36,1) both; }
+
+  /* ── M14. Service cards : stagger delay au reveal ── */
+  body.js .svc.show:nth-child(1) { animation-delay: .04s; }
+  body.js .svc.show:nth-child(2) { animation-delay: .10s; }
+  body.js .svc.show:nth-child(3) { animation-delay: .16s; }
+  body.js .svc.show:nth-child(4) { animation-delay: .22s; }
+  body.js .svc.show:nth-child(5) { animation-delay: .28s; }
+  body.js .svc.show:nth-child(6) { animation-delay: .34s; }
+
+  /* ── M15. Nav CTA button : shimmer rapide mobile ── */
+  .nav-cta::after {
+    animation: navCtaSweep 2.5s ease-in-out infinite;
+  }
+
+  /* ── M16. Footer social icons : tap spring ── */
+  .ft-soc a:active {
+    transform: scale(.88) translateY(2px);
+    transition: transform .1s ease;
+  }
+
+  /* ── M17. Testimonial card : depth ── */
+  .tst {
+    box-shadow: 0 8px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
+  }
+
+  /* ── M18. Value cards : top sweep line ── */
+  .val::before {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(248,186,8,.5), transparent);
+  }
+
+  /* ── M19. Center logo : stronger glow on mobile ── */
+  .c-circle {
+    box-shadow:
+      0 0 0 3px rgba(248,186,8,.12),
+      0 0 30px rgba(248,186,8,.2),
+      inset 0 1px 0 rgba(255,255,255,.08);
+    animation: glow 3s ease-in-out infinite;
+  }
+
+  /* ── M20. Mobile menu links : spring entrance ── */
+  .mob.open .ml {
+    animation: mobLinkSpring .5s cubic-bezier(.34,1.56,.64,1) both;
+  }
+  .mob.open .ml:nth-child(1) { animation-delay: .06s; }
+  .mob.open .ml:nth-child(2) { animation-delay: .11s; }
+  .mob.open .ml:nth-child(3) { animation-delay: .16s; }
+  .mob.open .ml:nth-child(4) { animation-delay: .21s; }
+  .mob.open .ml:nth-child(5) { animation-delay: .26s; }
+  .mob.open .ml:nth-child(6) { animation-delay: .31s; }
+  @keyframes mobLinkSpring {
+    0%   { opacity: 0; transform: translateX(-24px) scale(.95); }
+    70%  { transform: translateX(4px) scale(1.01); }
+    100% { opacity: 1; transform: translateX(0) scale(1); }
+  }
+
+  /* ── M21. Separator lines : animated ── */
+  .sep {
+    animation: sepFlow 5s linear infinite;
+    opacity: .25;
+  }
+
+  /* ── M22. Process cards : stagger reveal ── */
+  body.js .prc.show:nth-child(1) { animation: mobileCardReveal .6s .03s cubic-bezier(.22,1,.36,1) both; }
+  body.js .prc.show:nth-child(2) { animation: mobileCardReveal .6s .12s cubic-bezier(.22,1,.36,1) both; }
+  body.js .prc.show:nth-child(3) { animation: mobileCardReveal .6s .21s cubic-bezier(.22,1,.36,1) both; }
+  body.js .prc.show:nth-child(4) { animation: mobileCardReveal .6s .30s cubic-bezier(.22,1,.36,1) both; }
+
+} /* end @media mobile */
+
+/* ── ACCESSIBILITY: reduced motion ───────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+  body::before,
+  .gd,
+  .bp,
+  .bsub,
+  .tst-qi,
+  .loc { animation: none !important; }
+}
