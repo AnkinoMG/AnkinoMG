@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://www.ankinomg.com/sitemap.xml
-# LLMs
-LLMs: https://www.ankinomg.com/llms.txt
