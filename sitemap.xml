@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- PAGES PRINCIPALES -->
+  <url>
+    <loc>https://www.ankinomg.com/</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.ankinomg.com/conseils/</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.ankinomg.com/actualites/</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.ankinomg.com/terms/</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.ankinomg.com/quiz/</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- ARTICLES INDIVIDUELS -->
+  <url>
+    <loc>https://www.ankinomg.com/actualites/lancement-blog-ankino/</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.ankinomg.com/actualites/intelligence-artificielle-communication-digitale-madagascar/</loc>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>
